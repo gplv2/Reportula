@@ -111,18 +111,18 @@ class BaculaStatsCommand extends Command {
         );
 
 
-            $hourstats = array(
-                'data'      => date('Y-m-d'),
-                'server'    => $servername,
-                'bytes'     => $jobbytes,
-                'starttime' => $starttime,
-                'endtime'   => $endtime,
-                'timediff'  => $timediff[0]->timediff,
-                'hoursdiff' => (int) $hoursdiff[0]->hoursdiff,
-                'hourbytes' => $hoursbytes[0]->hoursbytes
+	$hourstats = array(
+            'data'      => date('Y-m-d'),
+	    'server'    => $servername,
+            'bytes'     => $jobbytes,
+	    'starttime' => $starttime,
+	    'endtime'   => $endtime,
+	    'timediff'  => $timediff[0]->timediff,
+	    'hoursdiff' => (int) $hoursdiff[0]->hoursdiff,
+	    'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 
-        //$hourstats = Hoursstats::firstOrCreate($hourstats);
+        $hourstats = Hoursstats::firstOrCreate($hourstats);
         $daystats = Daystats::firstOrCreate($daystats);
     }
 }
