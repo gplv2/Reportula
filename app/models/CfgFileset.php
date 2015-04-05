@@ -8,8 +8,8 @@ use app\models\BaseModel;
 
 class CfgFileset extends BaseModel
 {
-	protected $guarded = array('id');
-	protected $table = 'cfgfileset';
+    protected $guarded = array('id');
+    protected $table = 'cfgfileset';
     public $timestamps = false;
 
 
@@ -28,7 +28,7 @@ class CfgFileset extends BaseModel
         return $this->hasMany('app\models\Cfgfilesetincludeoptions','idfileset','id');
     }
 
-     public function cfgfilesetexcludeoptions()
+        public function cfgfilesetexcludeoptions()
     {
         return $this->hasMany('app\models\Cfgfilesetexcludeoptions','idfileset','id');
     }

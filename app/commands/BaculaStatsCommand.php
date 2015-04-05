@@ -14,39 +14,39 @@ use app\models\Media;
 
 class BaculaStatsCommand extends Command {
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'BaculaStats:collect';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'BaculaStats:collect';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Collects Daily Bacula Stats';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Collects Daily Bacula Stats';
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire(){
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire(){
 
 
-		 /* Get Database Size */
+            /* Get Database Size */
         if ( Config::get('database.default')=="mysql") {
             $dbsize = DB::select('SELECT table_schema "Data Base Name",
                             SUM( data_length + index_length) / 1024 / 1024 "dbsize"
@@ -54,13 +54,13 @@ class BaculaStatsCommand extends Command {
                             WHERE table_schema = "'.Config::get('database.connections.mysql.database').'"
                             GROUP BY table_schema ;');
         } else {
-             $dbsize= DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
+                $dbsize= DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
         }
 
-         // Get Server Hostname
+            // Get Server Hostname
         $servername = gethostname();
 
-         // Get Number of Clients
+            // Get Number of Clients
         $clientsNumber=Client::all()->count();
 
         // Get Number of Files Transfered
@@ -69,7 +69,7 @@ class BaculaStatsCommand extends Command {
         // Get Storage Bytes
         $bytesStorage = Media::sum('volbytes');
 
-         //* Query For Hour Starts
+            //* Query For Hour Starts
         $dataInicio = date('Y-m-d', strtotime("-1 days")).(' 18:29');
         $dataFim = date('Y-m-d').(' 18:29');
 
@@ -111,7 +111,7 @@ class BaculaStatsCommand extends Command {
         );
 
 
-         $hourstats = array(
+            $hourstats = array(
                 'data'      => date('Y-m-d') ,
                 'server'    => $servername ,
                 'bytes'     => $jobbytes,
@@ -124,5 +124,5 @@ class BaculaStatsCommand extends Command {
 
         $hourstats = Hoursstats::firstOrCreate($hourstats);
         $daystats = Daystats::firstOrCreate($daystats);
-	}
+    }
 }

@@ -71,7 +71,7 @@ class VolumesController extends BaseController
             $text=" Days";
 
             /* 86400  -> equal to seconds in i day*/
-             $volretention = ($media->volretention/86400).$text;
+                $volretention = ($media->volretention/86400).$text;
 
             if ($volretention >= 365) {
                 $type = ' Year';
@@ -95,7 +95,7 @@ class VolumesController extends BaseController
                                     'volbytes'      => $volbytes,
                                     'volstatus'     => $volstatus,
                                     'volumeSelectBox'=>  $this->volumeSelectBox
-                         ));
+                            ));
 
     }
 
@@ -103,25 +103,25 @@ class VolumesController extends BaseController
     public function getvolumes()
     {
 
-      $tjobs = Job::select(array($this->tables['job'].'.jobid','name','starttime','endtime',
-                                   'level','jobbytes','jobfiles','jobstatus'))
-                  ->join($this->tables['jobmedia'],$this->tables['jobmedia'].'.jobid', '=', $this->tables['job'].'.jobid')
-                  ->join($this->tables['media'],$this->tables['media'].'.mediaid', '=', $this->tables['jobmedia'].'.mediaid')
-                  ->where($this->tables['media'].'.mediaid','=', Input::get('Volume'))
-                  ->groupby($this->tables['job'].'.jobid')
-                  ->groupby('starttime')
-                  ->groupby('endtime')
-                  ->groupby('level')
-                  ->groupby('jobbytes')
-                  ->groupby('jobfiles')
-                  ->groupby('jobstatus')
-                  ->groupby('name')
-                  ->groupby('volumename');
+        $tjobs = Job::select(array($this->tables['job'].'.jobid','name','starttime','endtime',
+                                    'level','jobbytes','jobfiles','jobstatus'))
+                    ->join($this->tables['jobmedia'],$this->tables['jobmedia'].'.jobid', '=', $this->tables['job'].'.jobid')
+                    ->join($this->tables['media'],$this->tables['media'].'.mediaid', '=', $this->tables['jobmedia'].'.mediaid')
+                    ->where($this->tables['media'].'.mediaid','=', Input::get('Volume'))
+                    ->groupby($this->tables['job'].'.jobid')
+                    ->groupby('starttime')
+                    ->groupby('endtime')
+                    ->groupby('level')
+                    ->groupby('jobbytes')
+                    ->groupby('jobfiles')
+                    ->groupby('jobstatus')
+                    ->groupby('name')
+                    ->groupby('volumename');
 
         return Datatables::of($tjobs)
-                          ->edit_column('name', '{{ link_to_route("jobs", $name ,array("Job" => $jobid)) }} ')
-                          ->edit_column('jobid', '{{ link_to_route("jobs", $jobid ,array("Job" => $jobid)) }} ')
-                          ->make();
+                            ->edit_column('name', '{{ link_to_route("jobs", $name ,array("Job" => $jobid)) }} ')
+                            ->edit_column('jobid', '{{ link_to_route("jobs", $jobid ,array("Job" => $jobid)) }} ')
+                            ->make();
     }
 
 }

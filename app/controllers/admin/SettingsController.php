@@ -117,32 +117,32 @@ class SettingsController extends BaseController
         $validation = Validator::make($ldappost, $rules);
 
         if (Input::has('ldapon')) {
-          if ($validation->fails()) {
-              //failed to validate
-              //let's go back to that form with errors, input
-              $messages =  $validation->messages();
-              $html='<div class="alert alert-error">';
-              foreach ($messages->all() as $message) {  $html.=' '.$message.'<br>'; }
-              $html.='</div>';
-              echo json_encode(array('html' => $html));
-          } else {
-              try {
-                  $adldap = new adLDAP(array('base_dn'    => Input::get('ldapbasedn',''),
+            if ($validation->fails()) {
+                //failed to validate
+                //let's go back to that form with errors, input
+                $messages =  $validation->messages();
+                $html='<div class="alert alert-error">';
+                foreach ($messages->all() as $message) {  $html.=' '.$message.'<br>'; }
+                $html.='</div>';
+                echo json_encode(array('html' => $html));
+            } else {
+                try {
+                    $adldap = new adLDAP(array('base_dn'    => Input::get('ldapbasedn',''),
                                     'account_suffix'      => Input::get('ldapdomain',''),
                                     'admin_username'      => Input::get('ldapuser',''),
                                     'admin_password'      => Input::get('ldappassword',''),
                                     'domain_controllers'  => array(Input::get('ldapserver','')),
                                     'ad_port'             => Input::get('ldapport',''),
-                                  ));
+                                    ));
 
-              } catch (\adLDAPException $e ) {
-                  echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> '.$e.' </div>') );
+                } catch (\adLDAPException $e ) {
+                    echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> '.$e.' </div>') );
 
-              }
-          }
+                }
+            }
         } else {
-          $html='<div class="alert alert-error"> Please select Yes checkbox !! </div>';
-           echo json_encode(array('html' => $html));
+            $html='<div class="alert alert-error"> Please select Yes checkbox !! </div>';
+            echo json_encode(array('html' => $html));
         }
         echo json_encode(array('html' => '<div class="alert alert-success"> Ldap Sucessufull Connected</div> '));
     }
@@ -154,23 +154,23 @@ class SettingsController extends BaseController
     public function syncldap()
     {
 
-      $ldappost = Input::all();
-      /* Rules Edit Form */
-      $rules = array(
-          'ldapdomain'    => 'required',
-          'ldappassword'  => 'required',
-          'ldapuser'      => 'required',
-          'ldapserver'    => 'required',
-          'ldappassword'  => 'required',
-          'ldapbasedn'    => 'required',
-          'ldapport'      => 'required',
+        $ldappost = Input::all();
+        /* Rules Edit Form */
+        $rules = array(
+            'ldapdomain'    => 'required',
+            'ldappassword'  => 'required',
+            'ldapuser'      => 'required',
+            'ldapserver'    => 'required',
+            'ldappassword'  => 'required',
+            'ldapbasedn'    => 'required',
+            'ldapport'      => 'required',
 
-      );
+        );
 
-      /* Validation settings */
-      $validation = Validator::make($ldappost, $rules);
+        /* Validation settings */
+        $validation = Validator::make($ldappost, $rules);
 
-      if (Input::has('ldapon')) {
+        if (Input::has('ldapon')) {
         if ($validation->fails()) {
             //failed to validate
             //let's go back to that form with errors, input
@@ -180,13 +180,13 @@ class SettingsController extends BaseController
             $html.='</div>';
             echo json_encode(array('html' => $html));
         } else {
-          try {
+            try {
                 $adldap = new adLDAP(array('base_dn'    => Input::get('ldapbasedn',''),
-                                  'account_suffix'      => Input::get('ldapdomain',''),
-                                  'admin_username'      => Input::get('ldapuser',''),
-                                  'admin_password'      => Input::get('ldappassword',''),
-                                  'domain_controllers'  => array(Input::get('ldapserver','')),
-                                  'ad_port'             => Input::get('ldapport',''),
+                                    'account_suffix'      => Input::get('ldapdomain',''),
+                                    'admin_username'      => Input::get('ldapuser',''),
+                                    'admin_password'      => Input::get('ldappassword',''),
+                                    'domain_controllers'  => array(Input::get('ldapserver','')),
+                                    'ad_port'             => Input::get('ldapport',''),
                                 ));
 
                 $groups=$adldap->group()->all();
@@ -194,8 +194,8 @@ class SettingsController extends BaseController
 
                 // Insert User on Database
                 foreach ($users as $user) {
-                  $u = $adldap->user()->infoCollection($user);
-                  if (!empty($u->mail)) {
+                    $u = $adldap->user()->infoCollection($user);
+                    if (!empty($u->mail)) {
                     $userInsert['email']=$u->mail;
                     $userInsert['first_name']="";
                     $userInsert['last_name']="";
@@ -204,34 +204,34 @@ class SettingsController extends BaseController
 
 
                     if (!empty($u->displayname)) {
-                      $displayname = explode(" ", $u->displayname);
-                      $userInsert['first_name']=$displayname[0];
-                      if (array_key_exists('1', $displayname)) $userInsert['last_name']=$displayname[1];
+                        $displayname = explode(" ", $u->displayname);
+                        $userInsert['first_name']=$displayname[0];
+                        if (array_key_exists('1', $displayname)) $userInsert['last_name']=$displayname[1];
                     }
                     $bd = DB::table('users')->where('email',$u->mail)->first();
                     if (!isset($bd->email)) {
-                      try {
+                        try {
                         Sentry::createUser($userInsert);
-                      } catch (\Cartalyst\Sentry\Users\UserExistsException $e) {}
+                        } catch (\Cartalyst\Sentry\Users\UserExistsException $e) {}
                     };
-                  }
+                    }
                 }
                 ///////////////////////////////////////////////////
                 // Insert dos Groups and Members
                 foreach ($groups as $group) {
-                  try {
+                    try {
                     $id = Sentry::findGroupByName($group);
-                  } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
-                      $id = Sentry::createGroup(array(
+                    } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+                        $id = Sentry::createGroup(array(
                         'name'        => $group,
-                     ));
-                  }
-                  // Get Members of Group
-                  $groupMembers = $adldap->group()->members($id->name);
-                  if ($groupMembers <> null) {
+                        ));
+                    }
+                    // Get Members of Group
+                    $groupMembers = $adldap->group()->members($id->name);
+                    if ($groupMembers <> null) {
                     foreach ($groupMembers as $members) {
-                      $userinfo = $adldap->user()->infoCollection($members, array("mail"));
-                      if ($userinfo->mail <> null) {
+                        $userinfo = $adldap->user()->infoCollection($members, array("mail"));
+                        if ($userinfo->mail <> null) {
                         //  Log::info($userinfo->mail);
                         // Find User by Email
                         $user = Sentry::findUserByLogin($userinfo->mail);
@@ -239,20 +239,20 @@ class SettingsController extends BaseController
                         $adminGroup = Sentry::findGroupById($id->id);
                         // Assign the group to the user
                         $user->addGroup($adminGroup);
-                      }
+                        }
                     }
-                  }
+                    }
                 }
                 } catch (\adLDAPException $e ) {
                     echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> '.$e.' </div>') );
 
                 }
             }
-      } else {
+        } else {
         $html='<div class="alert alert-error"> Please select Yes checkbox !! </div>';
-         echo json_encode(array('html' => $html));
-      }
-      echo json_encode(array('html' => '<div class="alert alert-success"> Ldap Sucessufull Syncronized</div> '));
+            echo json_encode(array('html' => $html));
+        }
+        echo json_encode(array('html' => '<div class="alert alert-success"> Ldap Sucessufull Syncronized</div> '));
     }
 
 

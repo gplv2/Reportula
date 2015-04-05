@@ -2,7 +2,7 @@
 
 return array(
 
-  /*
+    /*
   |--------------------------------------------------------------------------
   | Reportula Datatables Language Lines 
   |--------------------------------------------------------------------------
@@ -11,7 +11,7 @@ return array(
   | Translated By Pedro Oliveira
   */
 
-  'language'   => '{
+    'language'   => '{
     "sProcessing":     "Procesando...",
     "sLengthMenu":     "Mostrar _MENU_ registros",
     "sZeroRecords":    "No se encontraron resultados",

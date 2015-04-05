@@ -7,7 +7,7 @@ use app\models\BaseModel;
 
 class Cfgfilesetexcludeoptions extends BaseModel
 {
-		protected $guarded = array('id');
+        protected $guarded = array('id');
 
     public $key = 'id';
     protected $table = 'cfgfilesetexcludeoptions';

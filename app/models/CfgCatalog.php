@@ -7,7 +7,7 @@ use app\models\BaseModel;
 
 class CfgCatalog extends BaseModel
 {
-	protected $guarded = array('id');
+    protected $guarded = array('id');
     protected $table = 'cfgcatalog';
     public $timestamps = false;
     public $key = 'id';

@@ -14,7 +14,7 @@ class EmailsController extends BaseController
 {
     public $group_array            = array();
 
-   public function __construct()
+    public function __construct()
     {
         parent::__construct();
         Asset::add('multi-select', 'assets/css/multi-select.css');
@@ -32,25 +32,25 @@ class EmailsController extends BaseController
     }
 
     /**
-    * Add New Email
-    * @return id user
-    */
+     * Add New Email
+     * @return id user
+     */
     public function createemails()
     {
         return View::make('admin.emailnewedit')->with('when', array ('Daily' => 'Daily', "Weekly"=>"Weekly","Monthly" => "Monthly"))
-                                               ->with('whenSelected', '' )
-                                               ->with('clientsSelected', '' )
-                                               ->with('jobsSelected',    '' )
-                                               ->with('clients', Client::clientSelectBox() )
-                                               ->with('jobs', Job::jobSelectBox() )
-                                               ->with('emails',    "" )
-                                               ->with('id',       "");
+                                                ->with('whenSelected', '' )
+                                                ->with('clientsSelected', '' )
+                                                ->with('jobsSelected',    '' )
+                                                ->with('clients', Client::clientSelectBox() )
+                                                ->with('jobs', Job::jobSelectBox() )
+                                                ->with('emails',    "" )
+                                                ->with('id',       "");
     }
 
     /**
-    * Edit Emails Reports
-    * @return Array json Emails
-    */
+     * Edit Emails Reports
+     * @return Array json Emails
+     */
     public function editemails($id)
     {
         // Find the emailreport using the email id
@@ -64,19 +64,19 @@ class EmailsController extends BaseController
 
         return View::make('admin.emailnewedit')->with('when', array ('Daily' => 'Daily', "Weekly"=>"Weekly","Monthly" => "Monthly"))
                                                 ->with('whenSelected', $email->when )
-                                               ->with('clients',         Client::clientSelectBox()  )
-                                               ->with('clientsSelected', $clientspermissions )
-                                               ->with('jobsSelected',    $jobspermissions )
-                                               ->with('jobs',            Job::jobSelectBox())
-                                               ->with('emails',          $email->emails )
-                                               ->with('id',              $email->id)
+                                                ->with('clients',         Client::clientSelectBox()  )
+                                                ->with('clientsSelected', $clientspermissions )
+                                                ->with('jobsSelected',    $jobspermissions )
+                                                ->with('jobs',            Job::jobSelectBox())
+                                                ->with('emails',          $email->emails )
+                                                ->with('id',              $email->id)
                                             ;
     }
 
     /**
-    * Delete Report Emails
-    * @return Array json Users
-    */
+     * Delete Report Emails
+     * @return Array json Users
+     */
     public function deleteemails($id)
     {
         $email = Emails::find($id);
@@ -109,7 +109,7 @@ class EmailsController extends BaseController
             Former::withErrors($validation);
             echo json_encode(array('html' => $html));
         } else {
-           try {
+            try {
                 $emails = array () ;
                 $emails['emails'] = Input::get('emails','');
                 $emails['clients'] = serialize(Input::get('emailsClients'));

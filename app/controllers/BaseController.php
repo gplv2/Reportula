@@ -36,31 +36,31 @@ class BaseController extends Controller
 
         /* Resolve Database Names Myslq and Postgres */
         if ( Config::get('database.default')=='mysql' ) {
-          $this->tables = array( 'job' => 'Job',
-                                  'client' => 'Client',
-                                  'files' => 'Files',
-                                  'media' => 'Media',
-                                  'pool' => 'Pool',
-                                  'path' => 'Path',
-                                  'filename' => 'Filename',
-                                  'file' => 'File',
-                                  'jobfiles' => 'JobFiles',
-                                  'jobmedia' => 'JobMedia',
+            $this->tables = array( 'job' => 'Job',
+                                    'client' => 'Client',
+                                    'files' => 'Files',
+                                    'media' => 'Media',
+                                    'pool' => 'Pool',
+                                    'path' => 'Path',
+                                    'filename' => 'Filename',
+                                    'file' => 'File',
+                                    'jobfiles' => 'JobFiles',
+                                    'jobmedia' => 'JobMedia',
 
-          );
-         } else {
-          $this->tables = array( 'job' => 'job',
-                                  'client' => 'client',
-                                  'files' => 'files',
-                                  'media' => 'media',
-                                  'pool' => 'pool',
-                                  'path' => 'path',
-                                  'filename' => 'filename',
-                                  'file' => 'file',
-                                  'jobfiles' => 'jobfiles',
-                                  'jobmedia' => 'jobmedia'
-          );
-         }
+            );
+            } else {
+            $this->tables = array( 'job' => 'job',
+                                    'client' => 'client',
+                                    'files' => 'files',
+                                    'media' => 'media',
+                                    'pool' => 'pool',
+                                    'path' => 'path',
+                                    'filename' => 'filename',
+                                    'file' => 'file',
+                                    'jobfiles' => 'jobfiles',
+                                    'jobmedia' => 'jobmedia'
+            );
+            }
 
     }
 
@@ -110,39 +110,39 @@ class BaseController extends Controller
 
 function explodeTree($array, $delimiter = '_', $baseval = false)
 {
-  if(!is_array($array)) return false;
-  $splitRE   = '/' . preg_quote($delimiter, '/') . '/';
-  $returnArr = array();
-  foreach ($array as $key => $val) {
-      // Get parent parts and the current leaf
-      $parts  = preg_split($splitRE, $key, -1, PREG_SPLIT_NO_EMPTY);
-      $leafPart = array_pop($parts);
+    if(!is_array($array)) return false;
+    $splitRE   = '/' . preg_quote($delimiter, '/') . '/';
+    $returnArr = array();
+    foreach ($array as $key => $val) {
+        // Get parent parts and the current leaf
+        $parts  = preg_split($splitRE, $key, -1, PREG_SPLIT_NO_EMPTY);
+        $leafPart = array_pop($parts);
 
-      // Build parent structure
-      // Might be slow for really deep and large structures
-      $parentArr = &$returnArr;
-      foreach ($parts as $part) {
-          if (!isset($parentArr[$part])) {
-              $parentArr[$part] = array();
-          } elseif (!is_array($parentArr[$part])) {
-              if ($baseval) {
-                  $parentArr[$part] = array('__base_val' => $parentArr[$part]);
-              } else {
-                  $parentArr[$part] = array();
-              }
-          }
-          $parentArr = &$parentArr[$part];
-      }
+        // Build parent structure
+        // Might be slow for really deep and large structures
+        $parentArr = &$returnArr;
+        foreach ($parts as $part) {
+            if (!isset($parentArr[$part])) {
+                $parentArr[$part] = array();
+            } elseif (!is_array($parentArr[$part])) {
+                if ($baseval) {
+                    $parentArr[$part] = array('__base_val' => $parentArr[$part]);
+                } else {
+                    $parentArr[$part] = array();
+                }
+            }
+            $parentArr = &$parentArr[$part];
+        }
 
-      // Add the final part to the structure
-      if (empty($parentArr[$leafPart])) {
-          $parentArr[$leafPart] = $val;
-      } elseif ($baseval && is_array($parentArr[$leafPart])) {
-          $parentArr[$leafPart]['__base_val'] = $val;
-      }
-  }
+        // Add the final part to the structure
+        if (empty($parentArr[$leafPart])) {
+            $parentArr[$leafPart] = $val;
+        } elseif ($baseval && is_array($parentArr[$leafPart])) {
+            $parentArr[$leafPart]['__base_val'] = $val;
+        }
+    }
 
-  return $returnArr;
+    return $returnArr;
 }
 
 function MakeMenu($items, $level = 0)

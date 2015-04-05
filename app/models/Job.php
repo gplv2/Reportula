@@ -12,9 +12,9 @@ class Job extends Eloquent
 
 
     function __construct() {
-      if ( Config::get('database.default')=='pgsql' ) {
-          $this->table = strtolower($this->table);
-      }
+        if ( Config::get('database.default')=='pgsql' ) {
+            $this->table = strtolower($this->table);
+        }
     }
 
 
@@ -23,7 +23,7 @@ class Job extends Eloquent
     public static function jobSelectBox($jobsall=null)
     {
 
-         // Code to resolve pgsql names
+            // Code to resolve pgsql names
         $f_Name = 'Name';
         $f_JobID = 'JobId';
 
@@ -34,7 +34,7 @@ class Job extends Eloquent
 
 
         if ($jobsall==null) {
-           $jobsall = Job::select( $f_JobID,$f_Name)->distinct($f_Name)
+            $jobsall = Job::select( $f_JobID,$f_Name)->distinct($f_Name)
                 ->orderBy($f_Name, 'asc')->get()->toArray();
         }
 

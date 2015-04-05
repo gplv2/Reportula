@@ -61,9 +61,9 @@ class InstallController extends Controller
         }
 
         if ($auth['driver'] === 'eloquent') {
-           // if (class_exists($auth['model'])) $driver = new $auth['model'];
+            // if (class_exists($auth['model'])) $driver = new $auth['model'];
 
-         //   if ( ! (isset($driver) and $driver instanceof Orchestra\Model\User)) $eloquent_status = false;
+            //   if ( ! (isset($driver) and $driver instanceof Orchestra\Model\User)) $eloquent_status = false;
         }
 
         $engine = array('MySQL','PostgresSQL'  );
@@ -90,7 +90,7 @@ class InstallController extends Controller
             DB::connection(Config::get('database.default'))->getPdo();
             echo json_encode(array('html' => '<div class="alert alert-success"><i class="icon-fam-accept"></i> The Connection to the database was suscessfull  </div> '));
         } catch (Exception $e) {
-              echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> The Connection to the database was unuscessfull </div>') );
+                echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> The Connection to the database was unuscessfull </div>') );
         }
 
     }
@@ -98,7 +98,7 @@ class InstallController extends Controller
     /**
      * Sucess Action
      * @return Sucess Html Code
-    */
+     */
     public function installSucess()
     {
         return View::make('admin.sucess');
@@ -118,7 +118,7 @@ class InstallController extends Controller
 
             //Rules
             $rules = array(
-               //'admin'     => 'required',
+                //'admin'     => 'required',
                 'password'  => 'required',
                 'email'     => 'required',
             );
@@ -126,7 +126,7 @@ class InstallController extends Controller
             // Validate Rules Input Fields
             $validation = Validator::make($input, $rules);
             if ($validation->fails()) {
-               return Redirect::to('install')->with_errors($validation);
+                return Redirect::to('install')->with_errors($validation);
             }
 
 
@@ -227,7 +227,7 @@ class InstallController extends Controller
 
 
             // Create rules table
-           /* Schema::create(Config::get('sentry::sentry.table.rules'), function ($table) {
+            /* Schema::create(Config::get('sentry::sentry.table.rules'), function ($table) {
                 $table->on(Config::get('sentry::sentry.db_instance'));
                 $table->increments('id')->unsigned();
                 $table->string('rule')->unique();
@@ -271,7 +271,7 @@ class InstallController extends Controller
 
             /// Configuration Bacula Tables /////
 
-             if (!Schema::hasTable('cfgconsole')) {
+                if (!Schema::hasTable('cfgconsole')) {
                 /* cfgFileSetExclude */
                 Schema::create('cfgconsole', function ($table) {
                     $table->increments('id');
@@ -291,7 +291,7 @@ class InstallController extends Controller
             }
 
 
-             if (!Schema::hasTable('cfgmessages')) {
+                if (!Schema::hasTable('cfgmessages')) {
                 /* cfgFileSetExclude */
                 Schema::create('cfgmessages', function ($table) {
                     $table->increments('id');
@@ -343,7 +343,7 @@ class InstallController extends Controller
 
             }
 
-             /* cfgFileSetIncludeOptions   */
+                /* cfgFileSetIncludeOptions   */
             if (!Schema::hasTable('cfgfilesetexcludeoptions')) {
                 Schema::create('cfgfilesetexcludeoptions', function ($table) {
                     $table->increments('id');
@@ -426,7 +426,7 @@ class InstallController extends Controller
                 });
             }
 
-             /* cfgfilesetexcludeoptions */
+                /* cfgfilesetexcludeoptions */
             if (!Schema::hasTable('cfgfilesetexcludeoptions')) {
                 Schema::create('cfgfilesetexcludeoptions', function ($table) {
                     $table->increments('id');
@@ -502,7 +502,7 @@ class InstallController extends Controller
                 });
             }
 
-             /* cfgpool */
+                /* cfgpool */
             if (!Schema::hasTable('cfgpool')) {
 
                 Schema::create('cfgpool', function ($table) {
@@ -575,7 +575,7 @@ class InstallController extends Controller
                 });
             }
 
-             /* daystats */
+                /* daystats */
             if (!Schema::hasTable('daystats')) {
 
                 Schema::create('daystats', function ($table) {
@@ -590,7 +590,7 @@ class InstallController extends Controller
             }
 
 
-             /* hoursstats */
+                /* hoursstats */
             if (!Schema::hasTable('hoursstats')) {
 
                 Schema::create('hoursstats', function ($table) {
@@ -612,7 +612,7 @@ class InstallController extends Controller
 
             /* If Not Found Create Admin Group */
             if (!Group::where('name', '=', 'Admins')->count()){
-               $group = Sentry::createGroup(array(
+                $group = Sentry::createGroup(array(
                     'name'        => 'Admins',
                     'permissions' => array(
                         'admin' => 1,
@@ -622,12 +622,12 @@ class InstallController extends Controller
             } else {
                 $group = Sentry::findGroupByName('Admins');
             }
-             // Create User
-             if (!User::where('email', '=', Input::get('email'))->count()) {
+                // Create User
+                if (!User::where('email', '=', Input::get('email'))->count()) {
                 $user = Sentry::createUser(array(
-                     'email'    => Input::get('email'),
-                     'password' => Input::get('password'),
-                     'activated'  => '1',
+                        'email'    => Input::get('email'),
+                        'password' => Input::get('password'),
+                        'activated'  => '1',
                 ));
                 $user->addGroup($group);
             }
@@ -643,7 +643,7 @@ class InstallController extends Controller
             }
             echo json_encode(array('location' =>  'install/installSucess'));
         } catch (Sentry\SentryException $e) {
-           // $errors = new Laravel\Messages();
+            // $errors = new Laravel\Messages();
             Session::flash('status_error', $e->getMessage());
 
             return Redirect::to('install')->with_errors($validation);

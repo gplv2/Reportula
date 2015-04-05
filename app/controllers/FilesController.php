@@ -34,23 +34,23 @@ class FilesController extends BaseController
     public function files($job)
     {
 
-       $find = Filessearch::where('jobid', '=', $job)->get();
-       $find =  $find->toArray();
+        $find = Filessearch::where('jobid', '=', $job)->get();
+        $find =  $find->toArray();
 
-       if (empty($find)) {
+        if (empty($find)) {
             $filessearch = new Filessearch;
 
             $files = Files::select(array($this->tables['path'].'.path', $this->tables['filename'].'.name as filename','jobid'))
-                  ->join($this->tables['filename'],$this->tables['file'].'.filenameid', '=', $this->tables['filename'].'.filenameid')
-                  ->join($this->tables['path'],$this->tables['file'].'.pathid', '=', $this->tables['path'].'.pathid')
-                  ->where('jobid','=', $job)->remember(10)->get();
-                 // ->where('jobid','=', $job);
+                    ->join($this->tables['filename'],$this->tables['file'].'.filenameid', '=', $this->tables['filename'].'.filenameid')
+                    ->join($this->tables['path'],$this->tables['file'].'.pathid', '=', $this->tables['path'].'.pathid')
+                    ->where('jobid','=', $job)->remember(10)->get();
+                    // ->where('jobid','=', $job);
 
             $files = $files->toArray();
             if (!empty($files)) {
-		foreach (array_chunk($files, 1000) as $chunked_files) {
-                	$t= Filessearch::insert($chunked_files);
-		}
+        foreach (array_chunk($files, 1000) as $chunked_files) {
+                    $t= Filessearch::insert($chunked_files);
+        }
             }
             //$filessearch->getConnection()->insert("INSERT INTO ".($filessearch->getTable())." (path, filename, jobid) ".$files->toSql(), array($job));
 
@@ -60,13 +60,13 @@ class FilesController extends BaseController
         $logs = Logs::select(array('logtext'))->where('jobid','=', $job)->get();
         $logs2="";
         foreach ($logs as $log) {
-             $logs2[]=preg_replace("/[\t\n]+/", '</br>', $log->logtext);
+                $logs2[]=preg_replace("/[\t\n]+/", '</br>', $log->logtext);
         }
         //////
 
         $files= Filessearch::select(array('path','filename'))
-                  ->where('jobid','=', $job )
-                  ->orderBy('path','asc');
+                    ->where('jobid','=', $job )
+                    ->orderBy('path','asc');
 
         $files=$files->get();//->toArray();
 
@@ -84,20 +84,20 @@ class FilesController extends BaseController
         }
 
 
-       // $menu = $this->recursion($tree);
-          return View::make('files',array(
+        // $menu = $this->recursion($tree);
+            return View::make('files',array(
                                     'jobid' => $job,
                                     'logs'  => implode($logs2),
                                     'menu'  => $menu =$tree
                                 )
-                         );
+                            );
     }
 
     // Ajax Files Table
     public function getfiles()
     {
         $files = Filessearch::select(array('path','filename'))
-                  ->where('jobid','=', Input::get('jobid'));
+                    ->where('jobid','=', Input::get('jobid'));
 
         return Datatables::of($files)->make();
     }

@@ -10,9 +10,9 @@ class Pool extends Eloquent
     protected $table =  'Pool';
 
     function __construct() {
-      if ( Config::get('database.default')=='pgsql' ) {
-          $this->table = strtolower($this->table);
-      }
+        if ( Config::get('database.default')=='pgsql' ) {
+            $this->table = strtolower($this->table);
+        }
     }
 
     public $timestamps = false;

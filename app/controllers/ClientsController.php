@@ -28,7 +28,7 @@ class ClientsController extends BaseController
         Asset::add('momentmin', 'assets/js/moment.min.js');
         Asset::add('daterangepicker', 'assets/js/daterangepicker.js');
 
-         /* Html Exports Tables */
+            /* Html Exports Tables */
         Asset::add('bootstrap-dropdown.js', 'assets/js/bootstrap-dropdown.js');
         Asset::add('tableExport.js', 'assets/js/tableExport.js');
         Asset::add('jquery.base64.js', 'assets/js/jquery.base64.js');
@@ -58,7 +58,7 @@ class ClientsController extends BaseController
             $permissions=unserialize($permissions->clients);
             $clients = Client::wherein('clientid', $permissions)->remember(10)->get();
             $clientSelectBox=Client::clientSelectBox($clients->toArray());
-         } else {
+            } else {
             $clientSelectBox=Client::clientSelectBox();
         }
         ///// End Permissions
@@ -105,11 +105,11 @@ class ClientsController extends BaseController
 
             /* Get Terminated Jobs */
             $tjobs = Job::where('jobstatus','=', 'T')
-                      ->where('starttime',  '>=',  $start)
-                      ->where('endtime',    '<=',  $end)
-                      ->where('clientid','=',$client->clientid)
-                      ->remember(10)
-                      ->get();
+                        ->where('starttime',  '>=',  $start)
+                        ->where('endtime',    '<=',  $end)
+                        ->where('clientid','=',$client->clientid)
+                        ->remember(10)
+                        ->get();
 
             // Number Terminate Jobs
             $terminatedJobs=count($tjobs);
@@ -136,7 +136,7 @@ class ClientsController extends BaseController
             // Number Terminate Jobs
             $cancelJobs=count($canceledJobs);
 
-                 /* Get Running Jobs */
+                    /* Get Running Jobs */
             $runJobs = Job::where('jobstatus','=', 'R')
                     ->where('starttime','>=',$start)
                     ->where('endtime','<=',$end)
@@ -147,7 +147,7 @@ class ClientsController extends BaseController
             // Number Running Jobs
             $runningJobs=count($runJobs);
 
-             /* Get Watting Jobs */
+                /* Get Watting Jobs */
             $wateJobs = Job::wherein('jobstatus', array('c', 'F', 'j','M','m','p','s','t'))
                     ->where('endtime','<=',$end)
                     ->where('starttime','>=',$start)
@@ -158,7 +158,7 @@ class ClientsController extends BaseController
             // Number Watting Jobs
             $wattingJobs=count($wateJobs);
 
-              /* Get Error Jobs */
+                /* Get Error Jobs */
             $errJobs = Job::wherein('jobstatus', array('e', 'f', 'E'))
                     ->where('starttime','>=',$start)
                     ->where('endtime','<=',$end)
@@ -188,26 +188,26 @@ class ClientsController extends BaseController
 
         /* Draws Files Graph */
         $graphFiles = DB::table($this->tables['job'])
-                  ->where('clientid','=', $clientselected)
-                  ->where('starttime','>=',  $start)
-                  ->where('endtime','<=',    $end)
-                  ->orderby('starttime', 'asc')
-                  ->remember(10)
-                  ->get(array( DB::raw('date('.$this->tables['job'].'.starttime) as date'), DB::raw('jobfiles as files') ));
+                    ->where('clientid','=', $clientselected)
+                    ->where('starttime','>=',  $start)
+                    ->where('endtime','<=',    $end)
+                    ->orderby('starttime', 'asc')
+                    ->remember(10)
+                    ->get(array( DB::raw('date('.$this->tables['job'].'.starttime) as date'), DB::raw('jobfiles as files') ));
         $graphFiles= json_encode((array) $graphFiles);
 
         /* Draws Bytes Graph */
         $graphBytes = DB::table($this->tables['job'])->where('clientid','=', $clientselected)
-                  ->where('starttime','>=',  $start)
-                  ->where('endtime','<=',$end)
-                  ->orderby('starttime', 'asc')
-                  ->remember(10)
-                  ->get(array(DB::raw('date('.$this->tables['job'].'.starttime) as date'),DB::raw('jobbytes as bytes')));
+                    ->where('starttime','>=',  $start)
+                    ->where('endtime','<=',$end)
+                    ->orderby('starttime', 'asc')
+                    ->remember(10)
+                    ->get(array(DB::raw('date('.$this->tables['job'].'.starttime) as date'),DB::raw('jobbytes as bytes')));
 
         $graphBytes = json_encode((array) $graphBytes);
 
         Former::populate( array('date' => $start .' - '.$end),
-                          array('Client' => $clientselected  )   );
+                            array('Client' => $clientselected  )   );
 
         return View::make('clients', array(
                                     'terminatedJobs' => $terminatedJobs,
@@ -231,7 +231,7 @@ class ClientsController extends BaseController
                                     'graphFiles'      => $graphFiles,
                                     'graphBytes'      => $graphBytes,
                                 )
-                         );
+                            );
 
     }
 
@@ -246,11 +246,11 @@ class ClientsController extends BaseController
         $client = Client::where('clientid', '=', Input::get('Client'))->first();
 
         $tjobs = Job::select(array('jobid','name','starttime','endtime',
-                                  'level','jobbytes','jobfiles','jobstatus'))
+                                    'level','jobbytes','jobfiles','jobstatus'))
                 //  ->join('jobmedia','jobmedia.jobid', '=', 'job.jobid')
-                  ->where('clientid','=',$client->clientid)
-                  ->where('starttime','>=',  $start)
-                  ->where('endtime','<=',$end);
+                    ->where('clientid','=',$client->clientid)
+                    ->where('starttime','>=',  $start)
+                    ->where('endtime','<=',$end);
 
         switch (Input::get('type')) {
             case "terminated":

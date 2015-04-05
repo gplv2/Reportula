@@ -12,9 +12,9 @@ class Client extends Eloquent
     public $timestamps = false;
 
     function __construct() {
-      if ( Config::get('database.default')=='pgsql' ) {
-          $this->table = strtolower($this->table);
-      }
+        if ( Config::get('database.default')=='pgsql' ) {
+            $this->table = strtolower($this->table);
+        }
     }
 
     /* Fill Select Box */
@@ -24,7 +24,7 @@ class Client extends Eloquent
             $clientsall=Client::all()->toArray();
         }
 
-         // Code to resolve pgsql names
+            // Code to resolve pgsql names
         $f_Name = 'Name';
         $f_ClientID = 'ClientId';
 
