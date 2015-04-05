@@ -10,7 +10,7 @@ use app\models\Userspermissions;
 
 class UsersController extends BaseController
 {
-    public $group_array            = array();
+    public $group_array = array();
 
     public function __construct()
     {
@@ -24,7 +24,7 @@ class UsersController extends BaseController
 
         // Convert to Array to fill Group Select Box
         foreach ($groups as $key_name => $key_value) {
-            $this->group_array[$key_value['id']]=$key_value['name'];
+            $this->group_array[$key_value['id']] = $key_value['name'];
         }
 
     }
@@ -44,14 +44,14 @@ class UsersController extends BaseController
      */
     public function createuser()
     {
-        return View::make('admin.usersnewedit')->with('groups',$this->group_array)
-                                                ->with('groupSelected', '' )
-                                                ->with('clientsSelected', '' )
-                                                ->with('jobsSelected',    '' )
-                                                ->with('clients', Client::clientSelectBox()  )
-                                                ->with('jobs',    Job::jobSelectBox() )
-                                                ->with('email',    "" )
-                                                ->with('id',       "");
+        return View::make('admin.usersnewedit')->with('groups', $this->group_array)
+                                                ->with('groupSelected', '')
+                                                ->with('clientsSelected', '')
+                                                ->with('jobsSelected', '')
+                                                ->with('clients', Client::clientSelectBox())
+                                                ->with('jobs', Job::jobSelectBox())
+                                                ->with('email', "")
+                                                ->with('id', "");
     }
 
     /**
@@ -67,28 +67,28 @@ class UsersController extends BaseController
         $groupsOfSelected = $user->getGroups();
 
         foreach ($groupsOfSelected as $group) {
-            $this->groupSelected[$group->id]=$group->id;
+            $this->groupSelected[$group->id] = $group->id;
         }
-        $clientspermissions ="";
+        $clientspermissions = "";
         $jobspermissions = "";
         $permissions = Userspermissions::find($id);
-        if ($permissions <> null) {
-            $clientspermissions =unserialize ($permissions->clients);
-            $jobspermissions = unserialize ($permissions->jobs);
+        if ($permissions<>null) {
+            $clientspermissions = unserialize($permissions->clients);
+            $jobspermissions = unserialize($permissions->jobs);
         }
 
         Former::populate($user);
 
         //LOG::info(User::find($id));
 
-        return View::make('admin.usersnewedit')->with('groups',          $this->group_array)
-                                                ->with('groupSelected',   $this->groupSelected )
-                                                ->with('clients',         Client::clientSelectBox()  )
-                                                ->with('clientsSelected', $clientspermissions )
-                                                ->with('jobsSelected',    $jobspermissions )
-                                                ->with('jobs',            Job::jobSelectBox())
-                                                ->with('email',           $user->email )
-                                                ->with('id',              $user->id)
+        return View::make('admin.usersnewedit')->with('groups', $this->group_array)
+                                                ->with('groupSelected', $this->groupSelected)
+                                                ->with('clients', Client::clientSelectBox())
+                                                ->with('clientsSelected', $clientspermissions)
+                                                ->with('jobsSelected', $jobspermissions)
+                                                ->with('jobs', Job::jobSelectBox())
+                                                ->with('email', $user->email)
+                                                ->with('id', $user->id)
                                             ;
     }
 
@@ -129,10 +129,10 @@ class UsersController extends BaseController
         if ($validation->fails()) {
             //failed to validate
             //let's go back to that form with errors, input
-            $messages =  $validation->messages();
-            $html='<div class="alert alert-error">';
-            foreach ($messages->all() as $message) {  $html.=' '.$message.'<br>'; }
-            $html.='</div>';
+            $messages = $validation->messages();
+            $html = '<div class="alert alert-error">';
+            foreach ($messages->all() as $message) {  $html .= ' '.$message.'<br>'; }
+            $html .= '</div>';
             Former::withErrors($validation);
             echo json_encode(array('html' => $html));
         } else {
@@ -141,7 +141,7 @@ class UsersController extends BaseController
                 /* If Has Id is Update Else is Insert */
                 if (Input::has('id')) {
 
-                    $id=Input::get('id');
+                    $id = Input::get('id');
 
                     // Find the user using the user id
                     $user = Sentry::getUserProvider()->findById(Input::get('id'));
@@ -185,7 +185,7 @@ class UsersController extends BaseController
                         'activated'     => '1'
 
                     ));
-                    $id=$user->getId();
+                    $id = $user->getId();
 
                     if (Input::has('usergroups')) {
                         foreach (Input::get('usergroups') as $group) {
@@ -206,7 +206,7 @@ class UsersController extends BaseController
 
                 /* Permissions */
                 $permissions = Userspermissions::find($id);
-                if ($permissions <> null) $permissions->delete();
+                if ($permissions<>null) $permissions->delete();
                 $permissions = new Userspermissions;
                 $permissions->id = $id;
                 //$vd= new VD;
@@ -218,7 +218,7 @@ class UsersController extends BaseController
 
             } catch (\Exception $e) {
                 // Log::info( $e->getMessage() );
-                echo json_encode(array('html' => '<div class="alert alert-error">'. $e->getMessage().' </div> '));
+                echo json_encode(array('html' => '<div class="alert alert-error">'.$e->getMessage().' </div> '));
 
             }
         }
@@ -231,8 +231,8 @@ class UsersController extends BaseController
      */
     public function getusers()
     {
-        $users = User::select(array('users.id','users.email','users.permissions',
-                                    'users.last_login','users.created_at',));
+        $users = User::select(array('users.id', 'users.email', 'users.permissions',
+                                    'users.last_login', 'users.created_at',));
 
         return Datatables::of($users)
 

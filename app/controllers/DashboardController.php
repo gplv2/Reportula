@@ -3,7 +3,7 @@
 namespace app\controllers;
 use BaseController, Form, Input, Redirect;
 use Sentry, View, Log, Cache, Config, DB;
-use Date, App, Former, Datatables, Asset, Schema ;
+use Date, App, Former, Datatables, Asset, Schema;
 
 // Models
 use app\models\Client;
@@ -34,22 +34,22 @@ class DashboardController extends BaseController
         Asset::container('footer')->add('dashboard', 'assets/js/dashboard.js');
 
         // Caching DbSize Value
-        $dbsize = Cache::rememberForever('dbsize', function () {
+        $dbsize = Cache::rememberForever('dbsize', function() {
             /* Get Database Size */
-            if ( Config::get('database.default')=="mysql") {
+            if (Config::get('database.default')=="mysql") {
                 $dbsize = DB::select('SELECT table_schema "Data Base Name",
                                 SUM( data_length + index_length) / 1024 / 1024 "dbsize"
                                 FROM information_schema.TABLES
                                 WHERE table_schema = "'.Config::get('database.connections.mysql.database').'"
                                 GROUP BY table_schema ;');
             } else {
-                    $dbsize= DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
+                    $dbsize = DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
             }
             return $dbsize[0]->dbsize;
         },15);
 
         // Caching Number of Clients
-        $clients = Cache::rememberForever('nclients', function () {
+        $clients = Cache::rememberForever('nclients', function() {
             $clients = Client::get();
                         //where_in('name', $this->group_permissions_clients)
             return count($clients);
@@ -58,114 +58,114 @@ class DashboardController extends BaseController
         // Caching Number of Files And Bytes
         $media = Media::get(array(DB::raw('sum(volbytes) as bytes'), DB::raw('sum(volfiles) as files')))->first();
 
-        Cache::forever('nFiles',  $media->files);
-        Cache::forever('nBytes',  $media->bytes);
+        Cache::forever('nFiles', $media->files);
+        Cache::forever('nBytes', $media->bytes);
 
     }
 
-    public function dashboard($data=null)
+    public function dashboard($data = null)
     {
         /* Possbilidade de utilizar as datas*/
-        $datetype=$data;
+        $datetype = $data;
 
-        if ($data == null || $data == 'day') {
-            $datetype='day' ;
-            $date=Date::now()->sub('1 day');
+        if ($data==null || $data=='day') {
+            $datetype = 'day';
+            $date = Date::now()->sub('1 day');
 
             //$date = Date::forge('last day')->format('datetime');
             $nameDate = 'Last 24 Hours';
-        } elseif ($data == 'week') {
+        } elseif ($data=='week') {
 
             $date = Date::now()->sub('7 day');
-            $nameDate =  'Last Week';
-        } elseif ($data == 'month') {
+            $nameDate = 'Last Week';
+        } elseif ($data=='month') {
             $date = Date::now()->sub('1 month');
-            $nameDate =  'Last Month';
+            $nameDate = 'Last Month';
         }
 
 
 
         /* Get Terminated Jobs */
-        $tjobs = Job::where('starttime','>=', $date )
-                ->where('jobstatus','=', 'T');
+        $tjobs = Job::where('starttime', '>=', $date)
+                ->where('jobstatus', '=', 'T');
                 /* if ($this->group_permissions_jobs[0]<>'') {
                     $tjobs->where_in('name', $this->group_permissions_jobs);
                 }*/
-                $tjobs =  $tjobs->get();
+                $tjobs = $tjobs->get();
 
         // Number Terminate Jobs
-        $terminatedJobs=count($tjobs);
+        $terminatedJobs = count($tjobs);
 
         /* Get Canceled Jobs */
-        $canceledJobs = Job::where('starttime','>=',$date)
-                ->where('jobstatus','=', 'A');
+        $canceledJobs = Job::where('starttime', '>=', $date)
+                ->where('jobstatus', '=', 'A');
                 /*if ($this->group_permissions_jobs[0]<>'') {
                     $canceledJobs->where_in('name', $this->group_permissions_jobs);
                 }*/
                 $canceledJobs = $canceledJobs->get();
 
         // Number Terminate Jobs
-        $cancelJobs=count($canceledJobs);
+        $cancelJobs = count($canceledJobs);
 
         /* Get Running Jobs */
-        $runJobs = Job::where('starttime','>=',$date)
-                ->where('jobstatus','=', 'R');
+        $runJobs = Job::where('starttime', '>=', $date)
+                ->where('jobstatus', '=', 'R');
                 /* if ($this->group_permissions_jobs[0]<>'') {
                     $runJobs->where_in('name', $this->group_permissions_jobs);
                 }*/
-                $runJobs =  $runJobs->get();
+                $runJobs = $runJobs->get();
 
         // Number Running Jobs
-        $runningJobs=count($runJobs);
+        $runningJobs = count($runJobs);
 
             /* Get Watting Jobs */
-        $wateJobs = Job::where('starttime','>=',$date)
-                ->wherein('jobstatus', array('c', 'F', 'j','M','m','p','s','t'));
+        $wateJobs = Job::where('starttime', '>=', $date)
+                ->wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'));
                 /* if ($this->group_permissions_jobs[0]<>'') {
                     $wateJobs->where_in('name', $this->group_permissions_jobs);
                 }*/
-                $wateJobs =  $wateJobs->get();
+                $wateJobs = $wateJobs->get();
 
         // Number Watting Jobs
-        $wattingJobs=count($wateJobs);
+        $wattingJobs = count($wateJobs);
 
             /* Get Error Jobs */
-        $errJobs = Job::where('starttime','>=',$date)
+        $errJobs = Job::where('starttime', '>=', $date)
                 ->wherein('jobstatus', array('e', 'f', 'E'));
                 /*if ($this->group_permissions_jobs[0]<>'') {
                      $errJobs->where_in('name', $this->group_permissions_jobs);
                 }*/
-                    $errJobs =   $errJobs->get();
+                    $errJobs = $errJobs->get();
 
         // Number Error Jobs
-        $errorJobs=count($errJobs);
+        $errorJobs = count($errJobs);
 
-        $terminatedJobs=count($tjobs);
+        $terminatedJobs = count($tjobs);
 
         // Indicates Failed and Okay Jobs
-        $nTransBytes=0;
-        $nTransFiles=0;
+        $nTransBytes = 0;
+        $nTransFiles = 0;
 
         /* Calculate Jobs and Bytes */
-        $tjobs=$tjobs->toArray();
+        $tjobs = $tjobs->toArray();
 
-        if ( Config::get('database.default')=='pgsql' ) {
-            $nTransFiles = array_sum( array_fetch ($tjobs, 'jobfiles')) ;
-            $nTransBytes = array_sum( array_fetch ($tjobs, 'jobbytes') );
+        if (Config::get('database.default')=='pgsql') {
+            $nTransFiles = array_sum(array_fetch($tjobs, 'jobfiles'));
+            $nTransBytes = array_sum(array_fetch($tjobs, 'jobbytes'));
         } else {
-            $nTransFiles = array_sum( array_fetch ($tjobs, 'JobFiles')) ;
-            $nTransBytes = array_sum( array_fetch ($tjobs, 'JobBytes') );
+            $nTransFiles = array_sum(array_fetch($tjobs, 'JobFiles'));
+            $nTransBytes = array_sum(array_fetch($tjobs, 'JobBytes'));
         }
 
-        $pools = json_encode((array) DB::table($this->tables['pool'])->select('name','numvols')->orderby('numvols', 'desc')->get());
+        $pools = json_encode((array) DB::table($this->tables['pool'])->select('name', 'numvols')->orderby('numvols', 'desc')->get());
 
         $user = Sentry::getUser();
         /* Gets Pools And Convert Objets to Arrays*/
 
-        return View::make('dashboard',array(
+        return View::make('dashboard', array(
                                     'username'      => $user->email,
                                     'terminatedJobs'=> $terminatedJobs,
-                                    'nTransFiles'   => preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/",",",$nTransFiles),
+                                    'nTransFiles'   => preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/", ",", $nTransFiles),
                                     'cancelJobs'    => $cancelJobs,
                                     'runningJobs'   => $runningJobs,
                                     'wattingJobs'   => $wattingJobs,
@@ -174,8 +174,8 @@ class DashboardController extends BaseController
                                     'nameDate'      => $nameDate, // Date Name
                                     'datetype'      => $datetype,
                                     'type'          => 'terminated',
-                                    'graphOkJob'    => ($terminatedJobs <> 0) ?  ($terminatedJobs/($terminatedJobs+$errorJobs))*100 : 0 ,
-                                    'graphFailedJob' => ($errorJobs<> 0) ? ($errorJobs/($errorJobs+$terminatedJobs))*100 : 0,
+                                    'graphOkJob'    => ($terminatedJobs<>0) ? ($terminatedJobs / ($terminatedJobs + $errorJobs)) * 100 : 0,
+                                    'graphFailedJob' => ($errorJobs<>0) ? ($errorJobs / ($errorJobs + $terminatedJobs)) * 100 : 0,
                                     'dbsize'        =>$this->byte_format(Cache::get('dbsize')),
                                     'nClients'      =>Cache::get('nclients'),
                                     'nFiles'        =>Cache::get('nFiles'),
@@ -186,28 +186,28 @@ class DashboardController extends BaseController
     }
 
     // Ajax Dashboard Jobs Table
-    public function getjobs($data=null)
+    public function getjobs($data = null)
     {
         $date = new Date('last '.Input::get('date'));
-        $tjobs = Job::select(array('jobid','name','starttime','endtime',
-                                    'level','jobbytes','jobfiles','jobstatus'))
-                    ->where('starttime','>=', (string) $date );
+        $tjobs = Job::select(array('jobid', 'name', 'starttime', 'endtime',
+                                    'level', 'jobbytes', 'jobfiles', 'jobstatus'))
+                    ->where('starttime', '>=', (string) $date);
 
         switch (Input::get('type')) {
             case "terminated":
-                $tjobs->where('jobstatus','=', 'T');
+                $tjobs->where('jobstatus', '=', 'T');
                 break;
             case "running":
-                $tjobs->where('jobstatus','=', 'R');
+                $tjobs->where('jobstatus', '=', 'R');
                 break;
             case "watting":
-                $tjobs->wherein('jobstatus', array('c', 'F', 'j','M','m','p','s','t'));
+                $tjobs->wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'));
                 break;
             case "error":
                 $tjobs->wherein('jobstatus', array('e', 'f', 'E'));
                 break;
             case "cancel":
-                $tjobs->where('jobstatus','=', 'A');
+                $tjobs->where('jobstatus', '=', 'A');
                 break;
         }
 
@@ -224,14 +224,14 @@ class DashboardController extends BaseController
     }
 
     // Ajax Volumes & Pools Table
-    public function getvolumes($data=null)
+    public function getvolumes($data = null)
     {
-            $date = new Date('last '. Input::get('date'));
+            $date = new Date('last '.Input::get('date'));
 
 
                 $volumes = Media::join($this->tables['pool'], $this->tables['media'].'.poolid', '=', $this->tables['pool'].'.poolid')
-                            ->where('lastwritten','>=', (string)  $date )
-                            ->select(array('volumename','slot','volbytes','mediatype',$this->tables['pool'].'.name','lastwritten','volstatus'));
+                            ->where('lastwritten', '>=', (string) $date)
+                            ->select(array('volumename', 'slot', 'volbytes', 'mediatype', $this->tables['pool'].'.name', 'lastwritten', 'volstatus'));
 
             return (Datatables::of($volumes)
                             // ->edit_column('pool','{{ HTML::link_to_action("pool@index", $name, array("Job" => $name)) }}')
@@ -242,8 +242,8 @@ class DashboardController extends BaseController
     // Ajax Graph Volumes Pool
     public function getgraph()
     {
-        $pools = Cache::remember('poolsgraph', function () {
-            return DB::table($this->tables['pool'])->order_by('numvols', 'desc')->get(array('name','numvols'));
+        $pools = Cache::remember('poolsgraph', function() {
+            return DB::table($this->tables['pool'])->order_by('numvols', 'desc')->get(array('name', 'numvols'));
         },15);
         echo json_encode($pools);
     }

@@ -7,10 +7,10 @@ use Eloquent, Config;
 class Pool extends Eloquent
 {
     public $primaryKey = 'poolid';
-    protected $table =  'Pool';
+    protected $table = 'Pool';
 
     function __construct() {
-        if ( Config::get('database.default')=='pgsql' ) {
+        if (Config::get('database.default')=='pgsql') {
             $this->table = strtolower($this->table);
         }
     }

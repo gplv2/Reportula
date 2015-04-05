@@ -44,25 +44,25 @@ class EmailReportCommand extends Command {
      *
      * @return mixed
      */
-    public function fire(){
+    public function fire() {
 
         $schedule = $this->argument('schedule');
 
-        if ( $schedule=="DAY" ) {
-            $schedule='1 Day';
-        }elseif($schedule=="WEEK") {
-            $schedule='7 Day';
-        }else{
-            $schedule='31 Day';
+        if ($schedule=="DAY") {
+            $schedule = '1 Day';
+        }elseif ($schedule=="WEEK") {
+            $schedule = '7 Day';
+        } else {
+            $schedule = '31 Day';
         }
 
-        $emails=Emails::where('when', '=', $schedule)->get();
+        $emails = Emails::where('when', '=', $schedule)->get();
 
         foreach ($emails as $email)
         {
-            $tjobs = Job::where('jobstatus','=', 'T')
-                        ->where('starttime',  '>=',  Date::now()->sub($schedule))
-                        ->where('endtime',    '<=',  Date::now())
+            $tjobs = Job::where('jobstatus', '=', 'T')
+                        ->where('starttime', '>=', Date::now()->sub($schedule))
+                        ->where('endtime', '<=', Date::now())
                         ->whereIn('clientid', unserialize($email->clients))
                         ->get();
                         $data['table'] = $tjobs;

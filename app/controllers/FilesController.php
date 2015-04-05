@@ -3,7 +3,7 @@
 namespace app\controllers;
 use BaseController, Form, Input, Redirect;
 use Sentry, View, Log, Cache, Config, DB;
-use Date, App, Former, Datatables, Asset,Vd\Vd;
+use Date, App, Former, Datatables, Asset, Vd\Vd;
 
 // Models
 use app\models\Logs;
@@ -35,21 +35,21 @@ class FilesController extends BaseController
     {
 
         $find = Filessearch::where('jobid', '=', $job)->get();
-        $find =  $find->toArray();
+        $find = $find->toArray();
 
         if (empty($find)) {
             $filessearch = new Filessearch;
 
-            $files = Files::select(array($this->tables['path'].'.path', $this->tables['filename'].'.name as filename','jobid'))
-                    ->join($this->tables['filename'],$this->tables['file'].'.filenameid', '=', $this->tables['filename'].'.filenameid')
-                    ->join($this->tables['path'],$this->tables['file'].'.pathid', '=', $this->tables['path'].'.pathid')
-                    ->where('jobid','=', $job)->remember(10)->get();
+            $files = Files::select(array($this->tables['path'].'.path', $this->tables['filename'].'.name as filename', 'jobid'))
+                    ->join($this->tables['filename'], $this->tables['file'].'.filenameid', '=', $this->tables['filename'].'.filenameid')
+                    ->join($this->tables['path'], $this->tables['file'].'.pathid', '=', $this->tables['path'].'.pathid')
+                    ->where('jobid', '=', $job)->remember(10)->get();
                     // ->where('jobid','=', $job);
 
             $files = $files->toArray();
             if (!empty($files)) {
         foreach (array_chunk($files, 1000) as $chunked_files) {
-                    $t= Filessearch::insert($chunked_files);
+                    $t = Filessearch::insert($chunked_files);
         }
             }
             //$filessearch->getConnection()->insert("INSERT INTO ".($filessearch->getTable())." (path, filename, jobid) ".$files->toSql(), array($job));
@@ -57,38 +57,38 @@ class FilesController extends BaseController
         }
 
         /* Mostra o log do Job */
-        $logs = Logs::select(array('logtext'))->where('jobid','=', $job)->get();
-        $logs2="";
+        $logs = Logs::select(array('logtext'))->where('jobid', '=', $job)->get();
+        $logs2 = "";
         foreach ($logs as $log) {
-                $logs2[]=preg_replace("/[\t\n]+/", '</br>', $log->logtext);
+                $logs2[] = preg_replace("/[\t\n]+/", '</br>', $log->logtext);
         }
         //////
 
-        $files= Filessearch::select(array('path','filename'))
-                    ->where('jobid','=', $job )
-                    ->orderBy('path','asc');
+        $files = Filessearch::select(array('path', 'filename'))
+                    ->where('jobid', '=', $job)
+                    ->orderBy('path', 'asc');
 
-        $files=$files->get();//->toArray();
+        $files = $files->get(); //->toArray();
 
         //$files="";
 
         if (empty($files)) {
             foreach ($files as $file) {
-                $ficheiro[$file->path.$file->name]='';
+                $ficheiro[$file->path.$file->name] = '';
             }
             $tree = $this->explodeTree($ficheiro, "/");
             $tree = $this->recursion($tree);
 
-        }else{
-            $tree="";
+        } else {
+            $tree = "";
         }
 
 
         // $menu = $this->recursion($tree);
-            return View::make('files',array(
+            return View::make('files', array(
                                     'jobid' => $job,
                                     'logs'  => implode($logs2),
-                                    'menu'  => $menu =$tree
+                                    'menu'  => $menu = $tree
                                 )
                             );
     }
@@ -96,8 +96,8 @@ class FilesController extends BaseController
     // Ajax Files Table
     public function getfiles()
     {
-        $files = Filessearch::select(array('path','filename'))
-                    ->where('jobid','=', Input::get('jobid'));
+        $files = Filessearch::select(array('path', 'filename'))
+                    ->where('jobid', '=', Input::get('jobid'));
 
         return Datatables::of($files)->make();
     }

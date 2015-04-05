@@ -8,7 +8,7 @@ class BaseController extends Controller
     public function __construct()
     {
         /* Set the Language Based on Agent Browser */
-        $languages = explode(',',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        $languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         $lang = substr($languages[0], 0, 2);
         App::setLocale($lang);
 
@@ -24,7 +24,7 @@ class BaseController extends Controller
         Asset::add('reportula', 'assets/css/reportula.css');
 
         Asset::add('jquery', 'assets/js/jquery-2.0.3.min.js');
-        Asset::add('datatables', 'assets/js/jquery.dataTables.min.js','jquery');
+        Asset::add('datatables', 'assets/js/jquery.dataTables.min.js', 'jquery');
         Asset::add('jqueryloader', 'assets/js/jquery.loader-min.js', 'jquery');
         Asset::add('main', 'assets/js/main.js', 'TableTools');
         Asset::add('modal', 'assets/js/bootstrap-modal.js', 'jquery');
@@ -35,8 +35,8 @@ class BaseController extends Controller
         $monolog->pushHandler(new \Monolog\Handler\FirePHPHandler());
 
         /* Resolve Database Names Myslq and Postgres */
-        if ( Config::get('database.default')=='mysql' ) {
-            $this->tables = array( 'job' => 'Job',
+        if (Config::get('database.default')=='mysql') {
+            $this->tables = array('job' => 'Job',
                                     'client' => 'Client',
                                     'files' => 'Files',
                                     'media' => 'Media',
@@ -49,7 +49,7 @@ class BaseController extends Controller
 
             );
             } else {
-            $this->tables = array( 'job' => 'job',
+            $this->tables = array('job' => 'job',
                                     'client' => 'client',
                                     'files' => 'files',
                                     'media' => 'media',
@@ -71,8 +71,8 @@ class BaseController extends Controller
      */
     protected function setupLayout()
     {
-        if ( ! is_null($this->layout)) {
-            $this->layout = View::make($this->layout)->with('js_config', $js_config);;
+        if (!is_null($this->layout)) {
+            $this->layout = View::make($this->layout)->with('js_config', $js_config); ;
         }
     }
 
@@ -95,7 +95,7 @@ class BaseController extends Controller
             $unit = 'Gb';
         } elseif ($num >= 1000000) {
             $num = round($num / 1048576, $precision);
-            $unit ='Mb';
+            $unit = 'Mb';
         } elseif ($num >= 1000) {
             $num = round($num / 1024, $precision);
             $unit = 'Kb';
@@ -110,12 +110,12 @@ class BaseController extends Controller
 
 function explodeTree($array, $delimiter = '_', $baseval = false)
 {
-    if(!is_array($array)) return false;
-    $splitRE   = '/' . preg_quote($delimiter, '/') . '/';
+    if (!is_array($array)) return false;
+    $splitRE   = '/'.preg_quote($delimiter, '/').'/';
     $returnArr = array();
     foreach ($array as $key => $val) {
         // Get parent parts and the current leaf
-        $parts  = preg_split($splitRE, $key, -1, PREG_SPLIT_NO_EMPTY);
+        $parts = preg_split($splitRE, $key, -1, PREG_SPLIT_NO_EMPTY);
         $leafPart = array_pop($parts);
 
         // Build parent structure

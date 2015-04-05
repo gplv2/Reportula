@@ -41,173 +41,173 @@ class ClientsController extends BaseController
 
     }
 
-    public function clients($client=null)
+    public function clients($client = null)
     {
 
         $start = Input::get('start', Date::now()->sub('1 day'));
-        $end   = Input::get('end',   Date::now());
+        $end   = Input::get('end', Date::now());
 
         $clientselected = Input::get('Client', $client);
         $client = Client::where('clientid', '=', $clientselected)->first();
 
-        $user=Sentry::getUser();
+        $user = Sentry::getUser();
 
         // Get Clients to fill the Client Select Box And Select Values From Permissions
         $permissions = Userspermissions::where('id', '=', $user->id)->remember(10)->first();
         if ($permissions<>null) {
-            $permissions=unserialize($permissions->clients);
+            $permissions = unserialize($permissions->clients);
             $clients = Client::wherein('clientid', $permissions)->remember(10)->get();
-            $clientSelectBox=Client::clientSelectBox($clients->toArray());
+            $clientSelectBox = Client::clientSelectBox($clients->toArray());
             } else {
-            $clientSelectBox=Client::clientSelectBox();
+            $clientSelectBox = Client::clientSelectBox();
         }
         ///// End Permissions
 
-        if ($client == Null) {
-            $platform="";
-            $fileretension="";
-            $jobretension="";
-            $autoprune="";
-            $terminatedJobs="0";
-            $cancelJobs="0";
-            $runningJobs="0";
-            $wattingJobs="0";
-            $errorJobs="0";
+        if ($client==Null) {
+            $platform = "";
+            $fileretension = "";
+            $jobretension = "";
+            $autoprune = "";
+            $terminatedJobs = "0";
+            $cancelJobs = "0";
+            $runningJobs = "0";
+            $wattingJobs = "0";
+            $errorJobs = "0";
             // Indicates Failed and Okay Jobs
-            $nTransBytes="0";
-            $nTransFiles="0";
-            $graphOkJob="0";
-            $graphFailedJob="0";
+            $nTransBytes = "0";
+            $nTransFiles = "0";
+            $graphOkJob = "0";
+            $graphFailedJob = "0";
 
         } else {
 
-            $platform=$client->Uname;
-            $autoprune=$client->AutoPrune;
+            $platform = $client->Uname;
+            $autoprune = $client->AutoPrune;
 
             /* Calculate the Retension Period */
-            $to =Date::now();
-            $text=" Days";
+            $to = Date::now();
+            $text = " Days";
 
             /* 86400  -> equal to seconds in i day*/
-            $fileretension = ($client->fileretention/86400).$text;
+            $fileretension = ($client->fileretention / 86400).$text;
 
             if ($fileretension >= 365) {
                 $type = ' Year';
-                $fileretension=intval($fileretension/31536000).$type;
+                $fileretension = intval($fileretension / 31536000).$type;
             }
 
             /* 86400  -> equal to seconds in i day*/
-            $jobretension  = ($client->jobretention/86400).$text;
+            $jobretension = ($client->jobretention / 86400).$text;
             if ($jobretension >= 365) {
                 $type = ' Year';
-                $jobretension=intval($jobretension/31536000).$type;
+                $jobretension = intval($jobretension / 31536000).$type;
             }
 
             /* Get Terminated Jobs */
-            $tjobs = Job::where('jobstatus','=', 'T')
-                        ->where('starttime',  '>=',  $start)
-                        ->where('endtime',    '<=',  $end)
-                        ->where('clientid','=',$client->clientid)
+            $tjobs = Job::where('jobstatus', '=', 'T')
+                        ->where('starttime', '>=', $start)
+                        ->where('endtime', '<=', $end)
+                        ->where('clientid', '=', $client->clientid)
                         ->remember(10)
                         ->get();
 
             // Number Terminate Jobs
-            $terminatedJobs=count($tjobs);
+            $terminatedJobs = count($tjobs);
 
                 /* Get Canceled Jobs */
-            $canceledJobs = Job::where('jobstatus','=', 'A')
-                    ->where('starttime','>=',$start)
-                    ->where('endtime','<=',$end)
-                    ->where('clientid','=',$client->ClientId)
+            $canceledJobs = Job::where('jobstatus', '=', 'A')
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end)
+                    ->where('clientid', '=', $client->ClientId)
                     ->remember(10)
                     ->get();
 
             // Number Terminate Jobs
-            $cancelJobs=count($canceledJobs);
+            $cancelJobs = count($canceledJobs);
 
                 /* Get Canceled Jobs */
-            $canceledJobs = Job::where('jobstatus','=', 'A')
-                    ->where('starttime','>=',$start)
-                    ->where('endtime','<=',$end)
-                    ->where('clientid','=',$client->ClientId)
+            $canceledJobs = Job::where('jobstatus', '=', 'A')
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end)
+                    ->where('clientid', '=', $client->ClientId)
                     ->remember(10)
                     ->get();
 
             // Number Terminate Jobs
-            $cancelJobs=count($canceledJobs);
+            $cancelJobs = count($canceledJobs);
 
                     /* Get Running Jobs */
-            $runJobs = Job::where('jobstatus','=', 'R')
-                    ->where('starttime','>=',$start)
-                    ->where('endtime','<=',$end)
-                    ->where('clientid','=',$client->ClientId)
+            $runJobs = Job::where('jobstatus', '=', 'R')
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end)
+                    ->where('clientid', '=', $client->ClientId)
                     ->remember(10)
                     ->get();
 
             // Number Running Jobs
-            $runningJobs=count($runJobs);
+            $runningJobs = count($runJobs);
 
                 /* Get Watting Jobs */
-            $wateJobs = Job::wherein('jobstatus', array('c', 'F', 'j','M','m','p','s','t'))
-                    ->where('endtime','<=',$end)
-                    ->where('starttime','>=',$start)
-                    ->where('clientid','=',$client->ClientId)
+            $wateJobs = Job::wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'))
+                    ->where('endtime', '<=', $end)
+                    ->where('starttime', '>=', $start)
+                    ->where('clientid', '=', $client->ClientId)
                     ->remember(10)
                     ->get();
 
             // Number Watting Jobs
-            $wattingJobs=count($wateJobs);
+            $wattingJobs = count($wateJobs);
 
                 /* Get Error Jobs */
             $errJobs = Job::wherein('jobstatus', array('e', 'f', 'E'))
-                    ->where('starttime','>=',$start)
-                    ->where('endtime','<=',$end)
-                    ->where('clientid','=',$client->ClientId)
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end)
+                    ->where('clientid', '=', $client->ClientId)
                     ->remember(10)
                     ->get();
 
             // Number Error Jobs
-            $errorJobs=count($errJobs);
-            $nTransBytes=0;
-            $nTransFiles=0;
-            $terminatedJobs=count($tjobs);
+            $errorJobs = count($errJobs);
+            $nTransBytes = 0;
+            $nTransFiles = 0;
+            $terminatedJobs = count($tjobs);
 
             /* Calculate Jobs and Bytes */
-            $tjobs=$tjobs->toArray();
-            $nTransFiles = array_sum( array_fetch ($tjobs, 'jobfiles')) ;
-            $nTransBytes = array_sum( array_fetch ($tjobs, 'jobbytes') );
+            $tjobs = $tjobs->toArray();
+            $nTransFiles = array_sum(array_fetch($tjobs, 'jobfiles'));
+            $nTransBytes = array_sum(array_fetch($tjobs, 'jobbytes'));
 
             // Value for The Graphs
-            $graphOkJob     = ($terminatedJobs <> 0) ?  ($terminatedJobs/($terminatedJobs+$errorJobs))*100 : 0 ;
-            $graphFailedJob = ($errorJobs<> 0) ? ($errorJobs/($errorJobs+$terminatedJobs))*100 : 0;
+            $graphOkJob     = ($terminatedJobs<>0) ? ($terminatedJobs / ($terminatedJobs + $errorJobs)) * 100 : 0;
+            $graphFailedJob = ($errorJobs<>0) ? ($errorJobs / ($errorJobs + $terminatedJobs)) * 100 : 0;
 
-            $nTransFiles=preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/",",",$nTransFiles);
-            $nTransBytes=$this->byte_format($nTransBytes);
+            $nTransFiles = preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/", ",", $nTransFiles);
+            $nTransBytes = $this->byte_format($nTransBytes);
 
         }
 
         /* Draws Files Graph */
         $graphFiles = DB::table($this->tables['job'])
-                    ->where('clientid','=', $clientselected)
-                    ->where('starttime','>=',  $start)
-                    ->where('endtime','<=',    $end)
+                    ->where('clientid', '=', $clientselected)
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end)
                     ->orderby('starttime', 'asc')
                     ->remember(10)
-                    ->get(array( DB::raw('date('.$this->tables['job'].'.starttime) as date'), DB::raw('jobfiles as files') ));
-        $graphFiles= json_encode((array) $graphFiles);
+                    ->get(array(DB::raw('date('.$this->tables['job'].'.starttime) as date'), DB::raw('jobfiles as files')));
+        $graphFiles = json_encode((array) $graphFiles);
 
         /* Draws Bytes Graph */
-        $graphBytes = DB::table($this->tables['job'])->where('clientid','=', $clientselected)
-                    ->where('starttime','>=',  $start)
-                    ->where('endtime','<=',$end)
+        $graphBytes = DB::table($this->tables['job'])->where('clientid', '=', $clientselected)
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end)
                     ->orderby('starttime', 'asc')
                     ->remember(10)
-                    ->get(array(DB::raw('date('.$this->tables['job'].'.starttime) as date'),DB::raw('jobbytes as bytes')));
+                    ->get(array(DB::raw('date('.$this->tables['job'].'.starttime) as date'), DB::raw('jobbytes as bytes')));
 
         $graphBytes = json_encode((array) $graphBytes);
 
-        Former::populate( array('date' => $start .' - '.$end),
-                            array('Client' => $clientselected  )   );
+        Former::populate(array('date' => $start.' - '.$end),
+                            array('Client' => $clientselected));
 
         return View::make('clients', array(
                                     'terminatedJobs' => $terminatedJobs,
@@ -241,32 +241,32 @@ class ClientsController extends BaseController
     {
 
         $start = Input::get('start', Date::now()->format('date'));
-        $end   = Input::get('end',   Date::now()->format('date'));
+        $end   = Input::get('end', Date::now()->format('date'));
 
         $client = Client::where('clientid', '=', Input::get('Client'))->first();
 
-        $tjobs = Job::select(array('jobid','name','starttime','endtime',
-                                    'level','jobbytes','jobfiles','jobstatus'))
+        $tjobs = Job::select(array('jobid', 'name', 'starttime', 'endtime',
+                                    'level', 'jobbytes', 'jobfiles', 'jobstatus'))
                 //  ->join('jobmedia','jobmedia.jobid', '=', 'job.jobid')
-                    ->where('clientid','=',$client->clientid)
-                    ->where('starttime','>=',  $start)
-                    ->where('endtime','<=',$end);
+                    ->where('clientid', '=', $client->clientid)
+                    ->where('starttime', '>=', $start)
+                    ->where('endtime', '<=', $end);
 
         switch (Input::get('type')) {
             case "terminated":
-                $tjobs->where('jobstatus','=', 'T');
+                $tjobs->where('jobstatus', '=', 'T');
                 break;
             case "running":
-                $tjobs->where('jobstatus','=', 'R');
+                $tjobs->where('jobstatus', '=', 'R');
                 break;
             case "watting":
-                $tjobs->wherein('jobstatus', array('c', 'F', 'j','M','m','p','s','t'));
+                $tjobs->wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'));
                 break;
             case "error":
                 $tjobs->wherein('jobstatus', array('e', 'f', 'E'));
                 break;
             case "cancel":
-                $tjobs->where('jobstatus','=', 'A');
+                $tjobs->where('jobstatus', '=', 'A');
                 break;
         }
 
