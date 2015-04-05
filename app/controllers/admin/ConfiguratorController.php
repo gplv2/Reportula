@@ -931,8 +931,9 @@ class ConfiguratorController extends BaseController
                             $i++;
                             $result = preg_split('[=]', $config[$i]);
                             // Se não for comentário adiciona
-                            if (substr(trim($result[0]), 0, 1)!='#')
-                                $Console[preg_replace('/\s*/m', '', $result[0])] = preg_replace('/(\'|")/', '', trim($result[1]));
+                            if (substr(trim($result[0]), 0, 1)!='#') {
+                                                            $Console[preg_replace('/\s*/m', '', $result[0])] = preg_replace('/(\'|")/', '', trim($result[1]));
+                            }
                         } while (trim($config[$i + 1])!="}");
                         $Consoletest = CfgConsole::where('Name', '=', $Console['Name']);
                         if ($Consoletest->count()==0) {
@@ -962,8 +963,9 @@ class ConfiguratorController extends BaseController
                             }
 
                             // Se não for comentário adiciona
-                            if (substr(trim($result[0]), 0, 1)!='#')
-                                $Messages[preg_replace('/\s*/m', '', $result[0])] = preg_replace('/(\'|")/', '', trim($result[1]));
+                            if (substr(trim($result[0]), 0, 1)!='#') {
+                                                            $Messages[preg_replace('/\s*/m', '', $result[0])] = preg_replace('/(\'|")/', '', trim($result[1]));
+                            }
 
                         } while (trim($config[$i + 1])!="}");
 

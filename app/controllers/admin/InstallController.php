@@ -56,17 +56,17 @@ class InstallController extends Controller
         $fluent_status = true;
         $eloquent_status = true;
 
-        if ($auth['driver'] === 'fluent' && $auth['table'] !== 'users') {
+        if ($auth['driver']==='fluent' && $auth['table']!=='users') {
             $fluent_status = false;
         }
 
-        if ($auth['driver'] === 'eloquent') {
+        if ($auth['driver']==='eloquent') {
             // if (class_exists($auth['model'])) $driver = new $auth['model'];
 
             //   if ( ! (isset($driver) && $driver instanceof Orchestra\Model\User)) $eloquent_status = false;
         }
 
-        $engine = array('MySQL','PostgresSQL'  );
+        $engine = array('MySQL', 'PostgresSQL');
 
         $data = array(
             'engine'          => $engine,

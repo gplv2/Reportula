@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use Eloquent, Config;
-use vd\vd, Log;
+use Eloquent;
+use Config;
 
 class Client extends Eloquent
 {

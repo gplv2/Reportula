@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use Eloquent, Config;
+use Eloquent;
+use Config;
 
 class Job extends Eloquent
 {

@@ -1,9 +1,16 @@
 <?php
 
 namespace app\controllers;
-use BaseController, Form, Input, Redirect;
-use Sentry, View, Log, Cache, Config, DB;
-use Date, App, Former, Datatables, Asset, Schema;
+use BaseController;
+use Input;
+use Sentry;
+use View;
+use Cache;
+use Config;
+use DB;
+use Date;
+use Datatables;
+use Asset;
 
 // Models
 use app\models\Client;

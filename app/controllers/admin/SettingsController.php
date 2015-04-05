@@ -208,7 +208,9 @@ class SettingsController extends BaseController
                     if (!empty($u->displayname)) {
                         $displayname = explode(" ", $u->displayname);
                         $userInsert['first_name'] = $displayname[0];
-                        if (array_key_exists('1', $displayname)) $userInsert['last_name'] = $displayname[1];
+                        if (array_key_exists('1', $displayname)) {
+                            $userInsert['last_name'] = $displayname[1];
+                        }
                     }
                     $bd = DB::table('users')->where('email', $u->mail)->first();
                     if (!isset($bd->email)) {

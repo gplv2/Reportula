@@ -58,8 +58,10 @@ Route::filter('auth.basic', function () {
 */
 
 Route::filter('guest', function () {
-    if (Auth::check()) return Redirect::to('/index.php/');
-});
+    if (Auth::check()) {
+        return Redirect::to('/index.php/');
+    }
+    });
 
 /*
 |--------------------------------------------------------------------------
