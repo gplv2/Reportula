@@ -11,9 +11,9 @@ class Files extends Eloquent
     public $timestamps = false;
 
     function __construct() {
-      if ( Config::get('database.default')=='pgsql' ) {
-          $this->table = strtolower($this->table);
-      }
+        if ( Config::get('database.default')=='pgsql' ) {
+            $this->table = strtolower($this->table);
+        }
     }
 
 }

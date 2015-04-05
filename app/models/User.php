@@ -54,7 +54,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     }
 
 
-     public function groups()
+        public function groups()
     {
         return $this->hasMany('users_groups');
     }

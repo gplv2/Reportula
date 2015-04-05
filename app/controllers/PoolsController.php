@@ -81,7 +81,7 @@ class PoolsController extends BaseController
                                     'autoprune'     => $autoprune,
                                     'poolSelectBox' => $this->poolSelectBox
                                 )
-                         );
+                            );
 
     }
 
@@ -92,8 +92,8 @@ class PoolsController extends BaseController
         $pool = Input::get('Pool', "");
 
         $volumes = Media::select(array('mediaid','volumename','slot','mediatype','lastwritten',
-                                  'voljobs','volfiles','volbytes','volretention','volstatus'))
-                  ->where('poolid','=', $pool);
+                                    'voljobs','volfiles','volbytes','volretention','volstatus'))
+                    ->where('poolid','=', $pool);
 
         return  Datatables::of($volumes)
                     ->edit_column('volretention','{{ date("d", $volretention)." Days" }}')

@@ -50,8 +50,8 @@ class ConsoleController extends BaseController
     {
         $output = shell_exec('echo '.Input::get('method','').' '.implode(" ",Input::get('params','')).' | bconsole');
         return Response::json(array("jsonrpc" => "2.0",
-               'result' => $output,
-               'id' => "1",
-               'error'=> ""));
+                'result' => $output,
+                'id' => "1",
+                'error'=> ""));
     }
 }

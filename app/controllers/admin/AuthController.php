@@ -5,7 +5,7 @@ use Auth, BaseController, Form, Input, Redirect, Sentry, View, Log, Asset;
 
 class AuthController extends BaseController
 {
-     public function __construct()
+        public function __construct()
     {
         parent::__construct();
         Asset::add('eldarionform', 'assets/js/eldarion-ajax.min.js', 'jquery');
@@ -18,7 +18,7 @@ class AuthController extends BaseController
      */
     public function getLogin()
     {
-       return View::make('admin.auth.login');
+        return View::make('admin.auth.login');
     }
 
     /**

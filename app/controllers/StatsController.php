@@ -50,11 +50,11 @@ class StatsController extends BaseController
     public function gethoursstas()
     {
 
-      $stats = Hoursstats::select(array('starttime','endtime','bytes','hoursdiff','hourbytes','timediff'));
+        $stats = Hoursstats::select(array('starttime','endtime','bytes','hoursdiff','hourbytes','timediff'));
 
 
         return  Datatables::of($stats)
-                   /* ->edit_column('volretention','{{ date("d", $volretention)." Days" }}')
+                    /* ->edit_column('volretention','{{ date("d", $volretention)." Days" }}')
                     ->edit_column('volumename', '{{ link_to_route("volumes", $volumename ,array("Volume" => $mediaid)) }} ')
                     ->remove_column('mediaid')*/
                     ->make();
@@ -72,13 +72,13 @@ class StatsController extends BaseController
                             WHERE table_schema = "'.Config::get('database.connections.mysql.database').'"
                             GROUP BY table_schema ;');
         } else {
-             $dbsize= DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
+                $dbsize= DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
         }
 
-         // Get Server Hostname
+            // Get Server Hostname
         $servername = gethostname();
 
-         // Get Number of Clients
+            // Get Number of Clients
         $clientsNumber=Client::all()->count();
 
         // Get Number of Files Transfered
@@ -87,7 +87,7 @@ class StatsController extends BaseController
         // Get Storage Bytes
         $bytesStorage = Media::sum('volbytes');
 
-         //* Query For Hour Starts
+            //* Query For Hour Starts
         $dataInicio = date('Y-m-d', strtotime("-1 days")).(' 18:29');
         $dataFim = date('Y-m-d').(' 18:29');
 
@@ -126,7 +126,7 @@ class StatsController extends BaseController
             'databasesize' => $dbsize[0]->dbsize
         );
 
-         $hourstats = array(
+            $hourstats = array(
                 'data'      => date('Y-m-d') ,
                 'server'    => $servername ,
                 'bytes'     => $jobbytes,

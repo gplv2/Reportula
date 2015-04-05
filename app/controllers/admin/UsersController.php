@@ -39,25 +39,25 @@ class UsersController extends BaseController
     }
 
     /**
-    * Add New User
-    * @return id user
-    */
+     * Add New User
+     * @return id user
+     */
     public function createuser()
     {
         return View::make('admin.usersnewedit')->with('groups',$this->group_array)
-                                               ->with('groupSelected', '' )
-                                               ->with('clientsSelected', '' )
-                                               ->with('jobsSelected',    '' )
-                                               ->with('clients', Client::clientSelectBox()  )
-                                               ->with('jobs',    Job::jobSelectBox() )
-                                               ->with('email',    "" )
-                                               ->with('id',       "");
+                                                ->with('groupSelected', '' )
+                                                ->with('clientsSelected', '' )
+                                                ->with('jobsSelected',    '' )
+                                                ->with('clients', Client::clientSelectBox()  )
+                                                ->with('jobs',    Job::jobSelectBox() )
+                                                ->with('email',    "" )
+                                                ->with('id',       "");
     }
 
     /**
-    * Edit User
-    * @return Array json Users
-    */
+     * Edit User
+     * @return Array json Users
+     */
     public function edituser($id)
     {
         // Find the user using the user id
@@ -82,20 +82,20 @@ class UsersController extends BaseController
         //LOG::info(User::find($id));
 
         return View::make('admin.usersnewedit')->with('groups',          $this->group_array)
-                                               ->with('groupSelected',   $this->groupSelected )
-                                               ->with('clients',         Client::clientSelectBox()  )
-                                               ->with('clientsSelected', $clientspermissions )
-                                               ->with('jobsSelected',    $jobspermissions )
-                                               ->with('jobs',            Job::jobSelectBox())
-                                               ->with('email',           $user->email )
-                                               ->with('id',              $user->id)
+                                                ->with('groupSelected',   $this->groupSelected )
+                                                ->with('clients',         Client::clientSelectBox()  )
+                                                ->with('clientsSelected', $clientspermissions )
+                                                ->with('jobsSelected',    $jobspermissions )
+                                                ->with('jobs',            Job::jobSelectBox())
+                                                ->with('email',           $user->email )
+                                                ->with('id',              $user->id)
                                             ;
     }
 
     /**
-    * Delete User
-    * @return Array json Users
-    */
+     * Delete User
+     * @return Array json Users
+     */
     public function deleteuser($id)
     {
         $user = Sentry::getUserProvider()->findById(intval($id));
@@ -169,7 +169,7 @@ class UsersController extends BaseController
 
                     // Update the user
                     if ($user->save()) {
-                         echo json_encode(array('html' => '<div class="alert alert-success"> User Sucessufull Updated </div> '));
+                            echo json_encode(array('html' => '<div class="alert alert-success"> User Sucessufull Updated </div> '));
                     } else {
                         echo json_encode(array('html' => '<div class="alert alert-error"> Error </div> '));
                     }
@@ -211,7 +211,7 @@ class UsersController extends BaseController
                 $permissions->id = $id;
                 //$vd= new VD;
                 //$vd->dump(Input::get('userClients'));
-               // var_dump(serialize(Input::get('userClients')));
+                // var_dump(serialize(Input::get('userClients')));
                 $permissions->clients = serialize(Input::get('userClients'));
                 $permissions->jobs    = serialize(Input::get('userJobs'));
                 $permissions->save();

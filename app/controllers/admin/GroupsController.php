@@ -37,9 +37,9 @@ class GroupsController extends BaseController
     }
 
     /**
-    * Add New Group
-    * @return View
-    */
+     * Add New Group
+     * @return View
+     */
     public function creategroup()
     {
         $userSelected = "";
@@ -55,9 +55,9 @@ class GroupsController extends BaseController
     }
 
     /**
-    * Edit Group
-    * @return Array json groups
-    */
+     * Edit Group
+     * @return Array json groups
+     */
     public function editgroup($id)
     {
         // Find the user using the user id
@@ -86,19 +86,19 @@ class GroupsController extends BaseController
         Former::populate( $group->id );
 
         return View::make('admin.groupsnewedit')->with('users',$this->user_array)
-                                               ->with('userSelected', $userSelected )
-                                               ->with('clients',         Client::clientSelectBox()  )
-                                               ->with('clientsSelected', $clientspermissions )
-                                               ->with('jobsSelected',    $jobspermissions )
-                                               ->with('jobs',            Job::jobSelectBox() )
-                                               ->with('groupname',      $group->name)
-                                               ->with('id',             $group->id);
+                                                ->with('userSelected', $userSelected )
+                                                ->with('clients',         Client::clientSelectBox()  )
+                                                ->with('clientsSelected', $clientspermissions )
+                                                ->with('jobsSelected',    $jobspermissions )
+                                                ->with('jobs',            Job::jobSelectBox() )
+                                                ->with('groupname',      $group->name)
+                                                ->with('id',             $group->id);
     }
 
     /**
-    * Delete User
-    * @return Array json groups
-    */
+     * Delete User
+     * @return Array json groups
+     */
     public function deletegroup($id)
     {
         $group = Sentry::getGroupProvider()->findById(intval($id));
@@ -156,14 +156,14 @@ class GroupsController extends BaseController
                     if (Input::has('usergroups')) {
                         /*  Add User to Group*/
                         foreach (Input::get('usergroups') as $users) {
-                           $user = Sentry::getUserProvider()->findById($users);
-                           $user->addGroup($group);
+                            $user = Sentry::getUserProvider()->findById($users);
+                            $user->addGroup($group);
                         }
                     }
 
                     // Update the group
                     if ($group->save()) {
-                         echo json_encode(array('html' => '<div class="alert alert-success"> Group Sucessufull Updated </div> '));
+                            echo json_encode(array('html' => '<div class="alert alert-success"> Group Sucessufull Updated </div> '));
                     } else {
                         echo json_encode(array('html' => '<div class="alert alert-error"> Error </div> '));
                     }
@@ -175,11 +175,11 @@ class GroupsController extends BaseController
                         'name'         => Input::get('name'),
                     ));
 
-                     /* Adiciona users ao grupo */
+                        /* Adiciona users ao grupo */
                     if (Input::has('usergroups')) {
                         foreach (Input::get('usergroups') as $users) {
-                           $user = Sentry::getUserProvider()->findById($user);
-                           $user->addGroup($group);
+                            $user = Sentry::getUserProvider()->findById($user);
+                            $user->addGroup($group);
 
                         }
                     }
