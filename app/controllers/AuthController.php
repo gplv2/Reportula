@@ -1,10 +1,14 @@
 <?php
 
 namespace app\controllers;
-use Auth, BaseController, Form, File;
-use Input, Redirect, Sentry, View, Log, Asset;
-use adLDAP, DB;
-
+use BaseController;
+use Input;
+use Redirect;
+use Sentry;
+use View;
+use Log;
+use Asset;
+use adLDAP;
 use app\models\Settings;
 
 class AuthController extends BaseController
