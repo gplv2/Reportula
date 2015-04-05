@@ -122,7 +122,7 @@ class BaculaStatsCommand extends Command {
                 'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 
-        $hourstats = Hoursstats::firstOrCreate($hourstats);
+        //$hourstats = Hoursstats::firstOrCreate($hourstats);
         $daystats = Daystats::firstOrCreate($daystats);
     }
 }
