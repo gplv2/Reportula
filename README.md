@@ -2,10 +2,9 @@
 
 ## Bacula Backups Web Gui Configurator & Report Tool
 
-[![Build Status](https://scrutinizer-ci.com/g/oliveiraped/Reportula/badges/build.png?b=master)](https://travis-ci.org/gplv2/Reportula)
-[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/oliveiraped/Reportula/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/oliveiraped/Reportula/)
-[![Code Coverage](https://scrutinizer-ci.com/g/oliveiraped/Reportula/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/oliveiraped/Reportula/)
-[![Support via Gittip](http://img.shields.io/gittip/oliveiraped.svg?style=flat)](https://www.gittip.com/oliveiraped/)
+[![Build Status](https://scrutinizer-ci.com/g/gplv2/Reportula/badges/build.png?b=master)](https://travis-ci.org/gplv2/Reportula)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/gplv2/Reportula/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/oliveiraped/Reportula/)
+[![Code Coverage](https://scrutinizer-ci.com/g/gplv2/Reportula/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/oliveiraped/Reportula/)
 
 Reportula is a php based web program that provides you a summarized output stats of Bacula Backups jobs, clients, volumes and director that have
 already run. It obtains its information from your catalog database.
