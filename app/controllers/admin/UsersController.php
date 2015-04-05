@@ -206,7 +206,9 @@ class UsersController extends BaseController
 
                 /* Permissions */
                 $permissions = Userspermissions::find($id);
-                if ($permissions<>null) $permissions->delete();
+                if ($permissions<>null) {
+                    $permissions->delete();
+                }
                 $permissions = new Userspermissions;
                 $permissions->id = $id;
                 //$vd= new VD;

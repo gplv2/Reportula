@@ -50,7 +50,7 @@ class EmailReportCommand extends Command {
 
         if ($schedule=="DAY") {
             $schedule = '1 Day';
-        }elseif ($schedule=="WEEK") {
+        } elseif ($schedule=="WEEK") {
             $schedule = '7 Day';
         } else {
             $schedule = '31 Day';

@@ -1,14 +1,19 @@
 <?php namespace app\controllers\admin;
 
-use BaseController, Datatables, View, Sentry, URL;
-use Input, Validator, Response, Former, Log, Asset, Debugbar;
-use Date, Time, AppHelper, Mail;
+use BaseController;
+use Datatables;
+use View;
+use URL;
+use Input;
+use Validator;
+use Response;
+use Former;
+use Asset;
 
 // Models
 use app\models\Emails;
 use app\models\Client;
 use app\models\Job;
-use app\models\Userspermissions;
 
 class EmailsController extends BaseController
 {
