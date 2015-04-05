@@ -77,7 +77,7 @@ class InstallController extends Controller
             'eloquent_status' => $eloquent_status,
         );
 
-        return View::make('admin.auth.install',$data);
+        return View::make('admin.auth.install', $data);
     }
 
     /**
@@ -90,7 +90,7 @@ class InstallController extends Controller
             DB::connection(Config::get('database.default'))->getPdo();
             echo json_encode(array('html' => '<div class="alert alert-success"><i class="icon-fam-accept"></i> The Connection to the database was suscessfull  </div> '));
         } catch (Exception $e) {
-                echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> The Connection to the database was unuscessfull </div>') );
+                echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> The Connection to the database was unuscessfull </div>'));
         }
 
     }
@@ -130,9 +130,9 @@ class InstallController extends Controller
             }
 
 
-            if ( Schema::hasTable('users') == false ) {
+            if (Schema::hasTable('users')==false) {
 
-                Schema::create('users', function ($table) {
+                Schema::create('users', function($table) {
                     $table->increments('id');
                     $table->string('email');
                     $table->string('password');
@@ -157,8 +157,8 @@ class InstallController extends Controller
                 });
             }
 
-            if ( Schema::hasTable('groups') == false ) {
-                Schema::create('groups', function ($table) {
+            if (Schema::hasTable('groups')==false) {
+                Schema::create('groups', function($table) {
                     $table->increments('id');
                     $table->string('name');
                     $table->text('permissions')->nullable();
@@ -171,9 +171,9 @@ class InstallController extends Controller
                 });
             }
 
-            if ( Schema::hasTable('users_groups') == false ) {
+            if (Schema::hasTable('users_groups')==false) {
 
-                Schema::create('users_groups', function ($table) {
+                Schema::create('users_groups', function($table) {
                     $table->integer('user_id')->unsigned();
                     $table->integer('group_id')->unsigned();
 
@@ -186,27 +186,27 @@ class InstallController extends Controller
 
 
             /* Userpermissions */
-            if ( Schema::hasTable('userspermissions') == false ) {
-                Schema::create('userspermissions', function ($table) {
+            if (Schema::hasTable('userspermissions')==false) {
+                Schema::create('userspermissions', function($table) {
                     $table->increments('id');
                     $table->text('clients')->nullable();
                     $table->text('jobs')->nullable();
                 });
             }
 
-            if ( Schema::hasTable('groupspermissions') == false ) {
+            if (Schema::hasTable('groupspermissions')==false) {
 
                 /* Groupspermissions */
-                Schema::create('groupspermissions', function ($table) {
+                Schema::create('groupspermissions', function($table) {
                     $table->increments('id');
                     $table->text('clients')->nullable();
                     $table->text('jobs')->nullable();
                 });
             }
 
-            if ( Schema::hasTable('throttle') == false ) {
+            if (Schema::hasTable('throttle')==false) {
 
-                Schema::create('throttle', function ($table) {
+                Schema::create('throttle', function($table) {
                     $table->increments('id');
                     $table->integer('user_id')->unsigned();
                     $table->string('ip_address')->nullable();
@@ -239,7 +239,7 @@ class InstallController extends Controller
             /* Settings Table */
 
             if (!Schema::hasTable('settings')) {
-                Schema::create('settings', function ($table) {
+                Schema::create('settings', function($table) {
                     $table->integer('id')->nullable();
                     $table->boolean('ldapon');
                     $table->string('ldapserver')->nullable();
@@ -257,7 +257,7 @@ class InstallController extends Controller
             }
 
             if (!Schema::hasTable('filessearch')) {
-                Schema::create('filessearch', function ($table) {
+                Schema::create('filessearch', function($table) {
                     $table->increments('id');
                     $table->integer('jobid')->nullable();
                     $table->string('path')->nullable();
@@ -273,7 +273,7 @@ class InstallController extends Controller
 
                 if (!Schema::hasTable('cfgconsole')) {
                 /* cfgFileSetExclude */
-                Schema::create('cfgconsole', function ($table) {
+                Schema::create('cfgconsole', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('Password')->nullable();
@@ -293,7 +293,7 @@ class InstallController extends Controller
 
                 if (!Schema::hasTable('cfgmessages')) {
                 /* cfgFileSetExclude */
-                Schema::create('cfgmessages', function ($table) {
+                Schema::create('cfgmessages', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('MailCommand')->nullable();
@@ -313,7 +313,7 @@ class InstallController extends Controller
 
             if (!Schema::hasTable('cfgfilesetexclude')) {
                 /* cfgFileSetExclude */
-                Schema::create('cfgfilesetexclude', function ($table) {
+                Schema::create('cfgfilesetexclude', function($table) {
                     $table->increments('id');
                     $table->integer('idfileset')->nullable();
                     $table->string('file')->nullable();
@@ -323,7 +323,7 @@ class InstallController extends Controller
 
             /* cfgFileSetInclude  */
             if (!Schema::hasTable('cfgfilesetinclude')) {
-                Schema::create('cfgfilesetinclude', function ($table) {
+                Schema::create('cfgfilesetinclude', function($table) {
                     $table->increments('id');
                     $table->integer('idfileset')->nullable();
                     $table->string('file')->nullable();
@@ -333,7 +333,7 @@ class InstallController extends Controller
 
             /* cfgFileSetIncludeOptions   */
             if (!Schema::hasTable('cfgfilesetincludeoptions')) {
-                Schema::create('cfgfilesetincludeoptions', function ($table) {
+                Schema::create('cfgfilesetincludeoptions', function($table) {
                     $table->increments('id');
                     $table->integer('idfileset')->nullable();
                     $table->string('option')->nullable();
@@ -345,7 +345,7 @@ class InstallController extends Controller
 
                 /* cfgFileSetIncludeOptions   */
             if (!Schema::hasTable('cfgfilesetexcludeoptions')) {
-                Schema::create('cfgfilesetexcludeoptions', function ($table) {
+                Schema::create('cfgfilesetexcludeoptions', function($table) {
                     $table->increments('id');
                     $table->integer('idfileset')->nullable();
                     $table->string('option')->nullable();
@@ -356,7 +356,7 @@ class InstallController extends Controller
 
             /* cfgcatalog */
             if (!Schema::hasTable('cfgcatalog')) {
-                Schema::create('cfgcatalog', function ($table) {
+                Schema::create('cfgcatalog', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('DBPassword')->nullable();
@@ -371,7 +371,7 @@ class InstallController extends Controller
 
             /* cfgclient */
             if (!Schema::hasTable('cfgclient')) {
-                Schema::create('cfgclient', function ($table) {
+                Schema::create('cfgclient', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('Address')->nullable();
@@ -392,7 +392,7 @@ class InstallController extends Controller
             /* cfgdirector */
 
             if (!Schema::hasTable('cfgdirector')) {
-                Schema::create('cfgdirector', function ($table) {
+                Schema::create('cfgdirector', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('Description')->nullable();
@@ -417,7 +417,7 @@ class InstallController extends Controller
 
             /* cfgfileset */
             if (!Schema::hasTable('cfgfileset')) {
-                Schema::create('cfgfileset', function ($table) {
+                Schema::create('cfgfileset', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('IgnoreFileSetChanges')->nullable();
@@ -428,7 +428,7 @@ class InstallController extends Controller
 
                 /* cfgfilesetexcludeoptions */
             if (!Schema::hasTable('cfgfilesetexcludeoptions')) {
-                Schema::create('cfgfilesetexcludeoptions', function ($table) {
+                Schema::create('cfgfilesetexcludeoptions', function($table) {
                     $table->increments('id');
                     $table->integer('idfileset')->nullable();
                     $table->string('option')->nullable();
@@ -438,7 +438,7 @@ class InstallController extends Controller
 
             /* cfgjob */
             if (!Schema::hasTable('cfgjob')) {
-                Schema::create('cfgjob', function ($table) {
+                Schema::create('cfgjob', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('Enabled')->nullable();
@@ -505,7 +505,7 @@ class InstallController extends Controller
                 /* cfgpool */
             if (!Schema::hasTable('cfgpool')) {
 
-                Schema::create('cfgpool', function ($table) {
+                Schema::create('cfgpool', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('MaximumVolumes')->nullable();
@@ -538,7 +538,7 @@ class InstallController extends Controller
             /* cfgschedule */
             if (!Schema::hasTable('cfgschedule')) {
 
-                Schema::create('cfgschedule', function ($table) {
+                Schema::create('cfgschedule', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('Run')->nullable();
@@ -548,7 +548,7 @@ class InstallController extends Controller
             /* cfgscheduleRun */
             if (!Schema::hasTable('cfgschedulerun')) {
 
-                Schema::create('cfgschedulerun', function ($table) {
+                Schema::create('cfgschedulerun', function($table) {
                     $table->increments('id');
                     $table->string('idschedule')->nullable();
                     $table->string('Run')->nullable();
@@ -558,7 +558,7 @@ class InstallController extends Controller
             /* cfgstorage */
             if (!Schema::hasTable('cfgstorage')) {
 
-                Schema::create('cfgstorage', function ($table) {
+                Schema::create('cfgstorage', function($table) {
                     $table->increments('id');
                     $table->string('Name')->nullable();
                     $table->string('Run')->nullable();
@@ -578,7 +578,7 @@ class InstallController extends Controller
                 /* daystats */
             if (!Schema::hasTable('daystats')) {
 
-                Schema::create('daystats', function ($table) {
+                Schema::create('daystats', function($table) {
                     $table->increments('id');
                     $table->timestamp('data')->nullable();
                     $table->string('server')->nullable();
@@ -593,7 +593,7 @@ class InstallController extends Controller
                 /* hoursstats */
             if (!Schema::hasTable('hoursstats')) {
 
-                Schema::create('hoursstats', function ($table) {
+                Schema::create('hoursstats', function($table) {
                     $table->increments('id');
                     $table->timestamp('data')->nullable();
                     $table->string('server')->nullable();
@@ -611,7 +611,7 @@ class InstallController extends Controller
             //var_dump ($count);
 
             /* If Not Found Create Admin Group */
-            if (!Group::where('name', '=', 'Admins')->count()){
+            if (!Group::where('name', '=', 'Admins')->count()) {
                 $group = Sentry::createGroup(array(
                     'name'        => 'Admins',
                     'permissions' => array(
@@ -632,8 +632,8 @@ class InstallController extends Controller
                 $user->addGroup($group);
             }
             /* Emails Tables */
-            if ( Schema::hasTable('emails') == false ) {
-                Schema::create('emails', function ($table) {
+            if (Schema::hasTable('emails')==false) {
+                Schema::create('emails', function($table) {
                     $table->increments('id');
                     $table->text('emails');
                     $table->text('clients')->nullable();

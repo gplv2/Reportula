@@ -10,7 +10,7 @@ use app\models\Job;
 
 class GroupsController extends BaseController
 {
-    public $user_array            = array();
+    public $user_array = array();
 
     public function __construct()
     {
@@ -24,7 +24,7 @@ class GroupsController extends BaseController
         $users = Sentry::getUserProvider()->findAll();
         // Convert to Array to fill Group Select Box
         foreach ($users as $key_name => $key_value) {
-            $this->user_array[$key_value['id']]=$key_value['email'];
+            $this->user_array[$key_value['id']] = $key_value['email'];
         }
     }
     /**
@@ -44,14 +44,14 @@ class GroupsController extends BaseController
     {
         $userSelected = "";
 
-        return View::make('admin.groupsnewedit')->with('users',$this->user_array)
-                                                ->with('userSelected', $userSelected )
-                                                ->with('clientsSelected', '' )
-                                                ->with('jobsSelected',    '' )
-                                                ->with('clients', Client::clientSelectBox()  )
-                                                ->with('jobs',    Job::jobSelectBox() )
-                                                ->with('groupname',     "")
-                                                ->with('id',       "");
+        return View::make('admin.groupsnewedit')->with('users', $this->user_array)
+                                                ->with('userSelected', $userSelected)
+                                                ->with('clientsSelected', '')
+                                                ->with('jobsSelected', '')
+                                                ->with('clients', Client::clientSelectBox())
+                                                ->with('jobs', Job::jobSelectBox())
+                                                ->with('groupname', "")
+                                                ->with('id', "");
     }
 
     /**
@@ -65,34 +65,34 @@ class GroupsController extends BaseController
         $users = Sentry::getUserProvider()->findAllInGroup($group);
 
         // Get the user groups
-        $userSelected="";
+        $userSelected = "";
 
 
         foreach ($users as $user) {
-            $userSelected[$user->id]=$user->id;
+            $userSelected[$user->id] = $user->id;
         }
 
         /* Get Groups Permissions */
-        $clientspermissions ="";
+        $clientspermissions = "";
         $jobspermissions = "";
         $permissions = Groupspermissions::find($id);
-        if ($permissions <> null) {
-            $clientspermissions =unserialize ($permissions->clients);
-            $jobspermissions = unserialize ($permissions->jobs);
+        if ($permissions<>null) {
+            $clientspermissions = unserialize($permissions->clients);
+            $jobspermissions = unserialize($permissions->jobs);
         }
 
         // LOG::info( $group->name);
 
-        Former::populate( $group->id );
+        Former::populate($group->id);
 
-        return View::make('admin.groupsnewedit')->with('users',$this->user_array)
-                                                ->with('userSelected', $userSelected )
-                                                ->with('clients',         Client::clientSelectBox()  )
-                                                ->with('clientsSelected', $clientspermissions )
-                                                ->with('jobsSelected',    $jobspermissions )
-                                                ->with('jobs',            Job::jobSelectBox() )
-                                                ->with('groupname',      $group->name)
-                                                ->with('id',             $group->id);
+        return View::make('admin.groupsnewedit')->with('users', $this->user_array)
+                                                ->with('userSelected', $userSelected)
+                                                ->with('clients', Client::clientSelectBox())
+                                                ->with('clientsSelected', $clientspermissions)
+                                                ->with('jobsSelected', $jobspermissions)
+                                                ->with('jobs', Job::jobSelectBox())
+                                                ->with('groupname', $group->name)
+                                                ->with('id', $group->id);
     }
 
     /**
@@ -130,10 +130,10 @@ class GroupsController extends BaseController
         if ($validation->fails()) {
             //failed to validate
             //let's go back to that form with errors, input
-            $messages =  $validation->messages();
-            $html='<div class="alert alert-error">';
-            foreach ($messages->all() as $message) {  $html.=' '.$message.'<br>'; }
-            $html.='</div>';
+            $messages = $validation->messages();
+            $html = '<div class="alert alert-error">';
+            foreach ($messages->all() as $message) {  $html .= ' '.$message.'<br>'; }
+            $html .= '</div>';
             Former::withErrors($validation);
             echo json_encode(array('html' => $html));
         } else {
@@ -142,7 +142,7 @@ class GroupsController extends BaseController
                 if (Input::has('id')) {
                     // Find the user using the user id
                     $group = Sentry::getGroupProvider()->findById(Input::get('id'));
-                    $group->name       = Input::get('name');
+                    $group->name = Input::get('name');
 
 
                     // Remove All User from the group to Add the Selected One
@@ -186,7 +186,7 @@ class GroupsController extends BaseController
                     echo json_encode(array('html' => '<div class="alert alert-success"> Group Sucessufull Created </div> '));
                 }
             } catch (\Exception $e) {
-                echo json_encode(array('html' => '<div class="alert alert-error">'. $e->getMessage().' </div> '));
+                echo json_encode(array('html' => '<div class="alert alert-error">'.$e->getMessage().' </div> '));
 
             }
         }
@@ -199,7 +199,7 @@ class GroupsController extends BaseController
      */
     public function getgroups()
     {
-        $groups = Group::select(array('groups.id','groups.name','groups.permissions',
+        $groups = Group::select(array('groups.id', 'groups.name', 'groups.permissions',
                                     'groups.created_at'));
 
         return Datatables::of($groups)

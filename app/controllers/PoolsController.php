@@ -33,47 +33,47 @@ class PoolsController extends BaseController
         Asset::container('footer')->add('pools.js', 'assets/js/pools.js');
 
         /* Fill Up the Select Box */
-        $poolall = Pool::select(array('poolid','name'))->orderBy('name', 'asc')->remember(10)->get()->toArray();
-        $poolName = array_fetch ($poolall, 'name') ;
-        $poolId   = array_fetch ($poolall, 'poolid') ;
-        $this->poolSelectBox  = array_combine ($poolId, $poolName);
+        $poolall = Pool::select(array('poolid', 'name'))->orderBy('name', 'asc')->remember(10)->get()->toArray();
+        $poolName = array_fetch($poolall, 'name');
+        $poolId   = array_fetch($poolall, 'poolid');
+        $this->poolSelectBox = array_combine($poolId, $poolName);
     }
 
-    public function pools($pool=null)
+    public function pools($pool = null)
     {
-        $poolselected = Input::get('Pool',$pool);
+        $poolselected = Input::get('Pool', $pool);
         $pool = Pool::find($poolselected);
 
-        if ($pool == Null) {
-            $name="";
-            $volretension="";
-            $recycle="";
-            $autoprune="";
-            $pooltype="";
+        if ($pool==Null) {
+            $name = "";
+            $volretension = "";
+            $recycle = "";
+            $autoprune = "";
+            $pooltype = "";
         } else {
-            $name=$pool->uname;
+            $name = $pool->uname;
 
-            $to =Date::now();
-            $text=" Days";
+            $to = Date::now();
+            $text = " Days";
            
 
             /* 86400  -> equal to seconds in i day*/ 
-            $volretension = ($pool->volretention/86400).$text;
+            $volretension = ($pool->volretention / 86400).$text;
 
             if ($volretension >= 365) {
                 $type = ' Year';
-                $volretension =intval($pool->volretention/31536000).$type;
+                $volretension = intval($pool->volretention / 31536000).$type;
             }
 
-            $recycle= $pool->recycle;
-            $autoprune=$pool->autoprune;
-            $pooltype=$pool->pooltype;
+            $recycle = $pool->recycle;
+            $autoprune = $pool->autoprune;
+            $pooltype = $pool->pooltype;
         }
 
         /* Get Stored bytes pool */
-        $tjobs = Media::where('poolid','=', $poolselected)->remember(10)->sum('volbytes');
+        $tjobs = Media::where('poolid', '=', $poolselected)->remember(10)->sum('volbytes');
 
-        return View::make('pools',array(
+        return View::make('pools', array(
                                     'name'          => $name,
                                     'volretension'  => $volretension,
                                     'recycle'       => $recycle,
@@ -91,12 +91,12 @@ class PoolsController extends BaseController
     {
         $pool = Input::get('Pool', "");
 
-        $volumes = Media::select(array('mediaid','volumename','slot','mediatype','lastwritten',
-                                    'voljobs','volfiles','volbytes','volretention','volstatus'))
-                    ->where('poolid','=', $pool);
+        $volumes = Media::select(array('mediaid', 'volumename', 'slot', 'mediatype', 'lastwritten',
+                                    'voljobs', 'volfiles', 'volbytes', 'volretention', 'volstatus'))
+                    ->where('poolid', '=', $pool);
 
         return  Datatables::of($volumes)
-                    ->edit_column('volretention','{{ date("d", $volretention)." Days" }}')
+                    ->edit_column('volretention', '{{ date("d", $volretention)." Days" }}')
                     ->edit_column('volumename', '{{ link_to_route("volumes", $volumename ,array("Volume" => $mediaid)) }} ')
                     ->remove_column('mediaid')
                     ->make();

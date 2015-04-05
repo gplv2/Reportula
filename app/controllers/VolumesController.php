@@ -32,57 +32,57 @@ class VolumesController extends BaseController
         Asset::add('volumes', 'assets/js/volumes.js');
 
         /* Fill Up the Select Box */
-        $volumesall = Media::select(array('mediaid','volumename'))
-                ->groupby('volumename')->groupby('mediaid')->orderby('volumename','asc')->get()->toArray();
-        $volumeName = array_fetch ($volumesall, 'volumename') ;
-        $volumeId   = array_fetch ($volumesall, 'mediaid') ;
-        $this->volumeSelectBox  = array_combine ($volumeId, $volumeName);
+        $volumesall = Media::select(array('mediaid', 'volumename'))
+                ->groupby('volumename')->groupby('mediaid')->orderby('volumename', 'asc')->get()->toArray();
+        $volumeName = array_fetch($volumesall, 'volumename');
+        $volumeId   = array_fetch($volumesall, 'mediaid');
+        $this->volumeSelectBox = array_combine($volumeId, $volumeName);
 
     }
 
-    public function volumes($volumes=null)
+    public function volumes($volumes = null)
     {
         $volumeSelected = Input::get('Volume', $volumes);
-        $media = Media::where('mediaid', '=', $volumeSelected )->first();
-        if ($media == Null) {
-            $slot="";
-            $pool="";
-            $firstwritten="";
-            $lastwritten="";
-            $labeldate="";
-            $voljobs="";
-            $volfiles="";
-            $labeldate="";
-            $volretention="";
-            $volbytes="";
-            $volstatus="";
-            $volumeSelected="";
+        $media = Media::where('mediaid', '=', $volumeSelected)->first();
+        if ($media==Null) {
+            $slot = "";
+            $pool = "";
+            $firstwritten = "";
+            $lastwritten = "";
+            $labeldate = "";
+            $voljobs = "";
+            $volfiles = "";
+            $labeldate = "";
+            $volretention = "";
+            $volbytes = "";
+            $volstatus = "";
+            $volumeSelected = "";
         } else {
-            $slot=$media->slot;
-            $pool=$media->pool;
-            $firstwritten=$media->firstwritten;
-            $lastwritten=$media->lastwritten;
-            $labeldate=$media->labeldate;
-            $voljobs=$media->voljobs;
-            $volfiles=$media->volfiles;
-            $labeldate=$media->labeldate;
+            $slot = $media->slot;
+            $pool = $media->pool;
+            $firstwritten = $media->firstwritten;
+            $lastwritten = $media->lastwritten;
+            $labeldate = $media->labeldate;
+            $voljobs = $media->voljobs;
+            $volfiles = $media->volfiles;
+            $labeldate = $media->labeldate;
 
-            $to =Date::now();
-            $text=" Days";
+            $to = Date::now();
+            $text = " Days";
 
             /* 86400  -> equal to seconds in i day*/
-                $volretention = ($media->volretention/86400).$text;
+                $volretention = ($media->volretention / 86400).$text;
 
             if ($volretention >= 365) {
                 $type = ' Year';
-                $volretention =intval($volretention/31536000).$type;
+                $volretention = intval($volretention / 31536000).$type;
             }
 
-            $volbytes=$this->byte_format($media->VolBytes);
-            $volstatus=$media->volstatus;
+            $volbytes = $this->byte_format($media->VolBytes);
+            $volstatus = $media->volstatus;
         }
 
-        return View::make('volumes',array(
+        return View::make('volumes', array(
                                     'slot'          => $slot,
                                     'volume'        => $volumeSelected,
                                     'firstwritten'  => $firstwritten,
@@ -103,11 +103,11 @@ class VolumesController extends BaseController
     public function getvolumes()
     {
 
-        $tjobs = Job::select(array($this->tables['job'].'.jobid','name','starttime','endtime',
-                                    'level','jobbytes','jobfiles','jobstatus'))
-                    ->join($this->tables['jobmedia'],$this->tables['jobmedia'].'.jobid', '=', $this->tables['job'].'.jobid')
-                    ->join($this->tables['media'],$this->tables['media'].'.mediaid', '=', $this->tables['jobmedia'].'.mediaid')
-                    ->where($this->tables['media'].'.mediaid','=', Input::get('Volume'))
+        $tjobs = Job::select(array($this->tables['job'].'.jobid', 'name', 'starttime', 'endtime',
+                                    'level', 'jobbytes', 'jobfiles', 'jobstatus'))
+                    ->join($this->tables['jobmedia'], $this->tables['jobmedia'].'.jobid', '=', $this->tables['job'].'.jobid')
+                    ->join($this->tables['media'], $this->tables['media'].'.mediaid', '=', $this->tables['jobmedia'].'.mediaid')
+                    ->where($this->tables['media'].'.mediaid', '=', Input::get('Volume'))
                     ->groupby($this->tables['job'].'.jobid')
                     ->groupby('starttime')
                     ->groupby('endtime')

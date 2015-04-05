@@ -7,10 +7,10 @@ use Eloquent, Config;
 class Logs extends Eloquent
 {
     public $primaryKey = 'logid';
-    protected $table   =  'Log';
+    protected $table   = 'Log';
 
     function __construct() {
-        if ( Config::get('database.default')=='pgsql' ) {
+        if (Config::get('database.default')=='pgsql') {
             $this->table = strtolower($this->table);
         }
     }

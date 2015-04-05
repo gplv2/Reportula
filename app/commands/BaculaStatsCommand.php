@@ -43,25 +43,25 @@ class BaculaStatsCommand extends Command {
      *
      * @return mixed
      */
-    public function fire(){
+    public function fire() {
 
 
             /* Get Database Size */
-        if ( Config::get('database.default')=="mysql") {
+        if (Config::get('database.default')=="mysql") {
             $dbsize = DB::select('SELECT table_schema "Data Base Name",
                             SUM( data_length + index_length) / 1024 / 1024 "dbsize"
                             FROM information_schema.TABLES
                             WHERE table_schema = "'.Config::get('database.connections.mysql.database').'"
                             GROUP BY table_schema ;');
         } else {
-                $dbsize= DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
+                $dbsize = DB::select("SELECT pg_database_size('".Config::get('database.connections.pgsql.database')."') as dbsize");
         }
 
             // Get Server Hostname
         $servername = gethostname();
 
             // Get Number of Clients
-        $clientsNumber=Client::all()->count();
+        $clientsNumber = Client::all()->count();
 
         // Get Number of Files Transfered
         $filesNumber = DB::table('file')->select(DB::raw('count(*) AS filesNumber'))->get();
@@ -76,23 +76,23 @@ class BaculaStatsCommand extends Command {
 
         /* Query timediff Stats */
         $timediff = DB::table('job')->select(DB::raw('(max(starttime) - min(starttime)) AS timediff'))
-                    ->where('starttime','>=', $dataInicio )
-                    ->where('endtime','<=', $dataFim)
+                    ->where('starttime', '>=', $dataInicio)
+                    ->where('endtime', '<=', $dataFim)
                     ->get();
 
-        $hoursdiff    = DB::table('job')->select(DB::raw("(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0)) AS hoursdiff"))
-                    ->where('starttime','>=', $dataInicio )
-                    ->where('endtime','<=', $dataFim)
+        $hoursdiff = DB::table('job')->select(DB::raw("(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0)) AS hoursdiff"))
+                    ->where('starttime', '>=', $dataInicio)
+                    ->where('endtime', '<=', $dataFim)
                     ->get();
 
-        $hoursbytes  = DB::table('job')->select(DB::raw("(sum(jobbytes)/(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0))) AS hoursbytes"))
-                    ->where('starttime','>=', $dataInicio )
-                    ->where('endtime','<=', $dataFim)
+        $hoursbytes = DB::table('job')->select(DB::raw("(sum(jobbytes)/(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0))) AS hoursbytes"))
+                    ->where('starttime', '>=', $dataInicio)
+                    ->where('endtime', '<=', $dataFim)
                     ->get();
 
         $query = DB::table('job')
-                    ->where('starttime','>=', $dataInicio )
-                    ->where('endtime','<=', $dataFim);
+                    ->where('starttime', '>=', $dataInicio)
+                    ->where('endtime', '<=', $dataFim);
 
 
         $jobbytes  = $query->sum('jobbytes');
@@ -102,8 +102,8 @@ class BaculaStatsCommand extends Command {
 
         /* Data for Stats to Insert*/
         $daystats = array(
-            'data' => date('Y-m-d') ,
-            'server' => $servername ,
+            'data' => date('Y-m-d'),
+            'server' => $servername,
             'bytes'  => $bytesStorage,
             'files'  => $filesNumber[0]->filesnumber,
             'clients' => $clientsNumber,
@@ -112,13 +112,13 @@ class BaculaStatsCommand extends Command {
 
 
             $hourstats = array(
-                'data'      => date('Y-m-d') ,
-                'server'    => $servername ,
+                'data'      => date('Y-m-d'),
+                'server'    => $servername,
                 'bytes'     => $jobbytes,
                 'starttime' => $starttime,
                 'endtime'   => $endtime,
                 'timediff'  => $timediff[0]->timediff,
-                'hoursdiff' => (int)$hoursdiff[0]->hoursdiff,
+                'hoursdiff' => (int) $hoursdiff[0]->hoursdiff,
                 'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 

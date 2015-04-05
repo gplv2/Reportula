@@ -44,15 +44,15 @@ class DashboardController extends BaseController
 		$percent_cach = round( $cache_mem / $total_mem * 100 );*/
 
 
-        $rss=FeedReader::read('http://www.reportula.org/reportula/?feed=rss2');
-            return View::make('admin.dashboard', array (
+        $rss = FeedReader::read('http://www.reportula.org/reportula/?feed=rss2');
+            return View::make('admin.dashboard', array(
                                                 'rss'             => $rss,
-                                                'uptime'          => "",//(exec("uptime")),
-                                                'system'	        => "",//$system,
-                                                'host'	          => "",//$host,
-                                                'kernel'	        => "",//$kernel,
-                                                'used_mem'        => "",//( $total_mem - $free_mem ),
-                                                    'used_swap'		    => "",//( $total_swap - $free_swap ),
+                                                'uptime'          => "", //(exec("uptime")),
+                                                'system'	        => "", //$system,
+                                                'host'	          => "", //$host,
+                                                'kernel'	        => "", //$kernel,
+                                                'used_mem'        => "", //( $total_mem - $free_mem ),
+                                                    'used_swap'		    => "", //( $total_swap - $free_swap ),
                                                     'free_mem'        => ""//$free_mem,
                                             ));
                                         }
