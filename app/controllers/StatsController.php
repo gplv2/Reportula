@@ -126,7 +126,7 @@ class StatsController extends BaseController
             'databasesize' => $dbsize[0]->dbsize
         );
 
-            $hourstats = array(
+        $hourstats = array(
                 'data'      => date('Y-m-d'),
                 'server'    => $servername,
                 'bytes'     => $jobbytes,
@@ -137,9 +137,8 @@ class StatsController extends BaseController
                 'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 
-            $hourstats = Hoursstats::firstOrCreate($hourstats);
-            $daystats = Daystats::firstOrCreate($daystats);
-
+       	$hourstats = Hoursstats::firstOrCreate($hourstats);
+       	$daystats = Daystats::firstOrCreate($daystats);
     }
 
 

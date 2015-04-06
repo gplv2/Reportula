@@ -124,14 +124,12 @@ class ActionsController extends BaseController
                 'hoursdiff' => $hoursdiff[0]->hoursdiff,
                 'hourbytes' => $hoursbytes[0]->hoursbytes
         );
+        $hourstats = Hoursstats::firstOrCreate($hourstats);
+        $daystats = Daystats::firstOrCreate($daystats);
 
-            $hourstats = Hoursstats::firstOrCreate($hourstats);
-            $daystats = Daystats::firstOrCreate($daystats);
-
+        $t = Hoursstats::insert($hourstats);
+        $d = Daystats::insert($daystats);
     }
-
-
-
 
 }
 

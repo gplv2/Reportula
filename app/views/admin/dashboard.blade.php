@@ -15,12 +15,15 @@
         <div class="span6 box-content breadcrumb">
             <center><h3>{{ trans('messages.serverinfo') }}</h3></center></br>
             <b>System : </b> {{ $system }}</br>
-			<b>Host   : </b> {{ $host }}</br>
- 			<b>Kernel : </b> {{ $kernel }}</br>
+	    <b>Host   : </b> {{ $host }}</br>
+ 	    <b>Kernel : </b> {{ $kernel }}</br>
             <b>Server Uptime : </b> {{ $uptime }}</br>
-            <b>Used Memory   : </b> {{ $used_mem  }}</br>
-            <b>Used Swap     : </b> {{$used_swap }}</br>
-            <b>Free Memory  : </b> {{  $free_mem }}</br>
+            <b>Total Memory  : </b> {{ $total_mem }}MB</br>
+            <b>Used Memory   : </b> {{ $used_mem }}MB</br>
+            <b>Buffered Mem  : </b> {{ $buffered_mem }}MB</br>
+            <b>Free Memory   : </b> {{ $free_mem }}MB</br>
+            <b>Used Swap     : </b> {{ $used_swap }}MB</br>
+            <b>PHP version   : </b> {{ $phpversion }}MB</br>
 		</div>
     </div>
 </div>
