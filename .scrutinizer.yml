@@ -2,4 +2,11 @@ checks:
     php:
         code_rating: true
         duplication: true
-
+build:
+    tests:
+        override:
+            -
+                command: 'phpunit --log-junit 'reports/unitreport.xml' --coverage-clover 'reports/clover.xml' test/'
+                coverage:
+                    file: 'reports/clover.xml'
+                    format: 'php-clover'
