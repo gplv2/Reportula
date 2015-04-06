@@ -3,10 +3,7 @@
 
 use app\controllers\Config;
 use app\controllers\DB;
-
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 
 // Models
@@ -50,9 +47,9 @@ class BaculaStatsCommand extends Command {
     public function fire() {
 
             /* Get Database Size */
-        if ( \Config::get('database.default')=="mysql") {
-	    $table_file = 'File'; // capital in mysql !
-	    $table_job = 'Job'; // capital in mysql !
+        if (\Config::get('database.default')=="mysql") {
+        $table_file = 'File'; // capital in mysql !
+        $table_job = 'Job'; // capital in mysql !
             $dbsize = \DB::select('SELECT table_schema "Data Base Name",
                             SUM( data_length + index_length) / 1024 / 1024 "dbsize"
                             FROM information_schema.TABLES
@@ -79,53 +76,53 @@ class BaculaStatsCommand extends Command {
         $dataInicio = date('Y-m-d', strtotime("-1 days")).(' 18:29');
         $dataFim = date('Y-m-d').(' 18:29');
 
-	if ( \Config::get('database.default')=="mysql") {
-		/* Query timediff Stats */
-		$timediff = \DB::table($table_job)->select(\DB::raw('TIMEDIFF(max(starttime) , min(starttime)) AS timediff'))
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim)
-			->get();
+    if (\Config::get('database.default')=="mysql") {
+        /* Query timediff Stats */
+        $timediff = \DB::table($table_job)->select(\DB::raw('TIMEDIFF(max(starttime) , min(starttime)) AS timediff'))
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim)
+            ->get();
 
-		$hoursdiff = \DB::table($table_job)->select(\DB::raw("(HOUR(TIMEDIFF(max(starttime), min(starttime))) + (MINUTE(TIMEDIFF(max(starttime) , min(starttime))) / 60.0)) AS hoursdiff"))
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim)
-			->get();
+        $hoursdiff = \DB::table($table_job)->select(\DB::raw("(HOUR(TIMEDIFF(max(starttime), min(starttime))) + (MINUTE(TIMEDIFF(max(starttime) , min(starttime))) / 60.0)) AS hoursdiff"))
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim)
+            ->get();
 
-		$hoursbytes = \DB::table($table_job)->select(\DB::raw("(sum(jobbytes)/(HOUR(TIMEDIFF(max(starttime) , min(starttime))) + (MINUTE(TIMEDIFF(max(starttime) , min(starttime))) / 60.0))) AS hoursbytes"))
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim)
-			->get();
+        $hoursbytes = \DB::table($table_job)->select(\DB::raw("(sum(jobbytes)/(HOUR(TIMEDIFF(max(starttime) , min(starttime))) + (MINUTE(TIMEDIFF(max(starttime) , min(starttime))) / 60.0))) AS hoursbytes"))
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim)
+            ->get();
 
-		$query = \DB::table($table_job)
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim);
+        $query = \DB::table($table_job)
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim);
 
-		$fnumber = $filesNumber[0]->filesNumber;
+        $fnumber = $filesNumber[0]->filesNumber;
 
-	} elseif ( \Config::get('database.default')=="pgsql") {
-		/* Query timediff Stats */
-		$timediff = \DB::table($table_job)->select(\DB::raw('(max(starttime) - min(starttime)) AS timediff'))
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim)
-			->get();
+    } elseif (\Config::get('database.default')=="pgsql") {
+        /* Query timediff Stats */
+        $timediff = \DB::table($table_job)->select(\DB::raw('(max(starttime) - min(starttime)) AS timediff'))
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim)
+            ->get();
 
-		$hoursdiff = \DB::table($table_job)->select(\DB::raw("(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0)) AS hoursdiff"))
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim)
-			->get();
+        $hoursdiff = \DB::table($table_job)->select(\DB::raw("(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0)) AS hoursdiff"))
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim)
+            ->get();
 
-		$hoursbytes = \DB::table($table_job)->select(\DB::raw("(sum(jobbytes)/(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0))) AS hoursbytes"))
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim)
-			->get();
+        $hoursbytes = \DB::table($table_job)->select(\DB::raw("(sum(jobbytes)/(date_part('hour',  (max(starttime) - min(starttime))) + (date_part('minutes',  (max(starttime) - min(starttime))) / 60.0))) AS hoursbytes"))
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim)
+            ->get();
 
-		$query = \DB::table($table_job)
-			->where('starttime', '>=', $dataInicio)
-			->where('endtime', '<=', $dataFim);
-            	$fnumber = $filesNumber[0]->filesnumber;
-	}
+        $query = \DB::table($table_job)
+            ->where('starttime', '>=', $dataInicio)
+            ->where('endtime', '<=', $dataFim);
+                $fnumber = $filesNumber[0]->filesnumber;
+    }
 
-	// echo print_r(\DB::getQueryLog());
+    // echo print_r(\DB::getQueryLog());
 
         $jobbytes  = $query->sum('jobbytes');
         $starttime = $query->min('starttime');
@@ -142,15 +139,15 @@ class BaculaStatsCommand extends Command {
             'databasesize' => $dbsize[0]->dbsize
         );
 
-	$hourstats = array(
+    $hourstats = array(
             'data'      => date('Y-m-d'),
-	    'server'    => $servername,
+        'server'    => $servername,
             'bytes'     => $jobbytes,
-	    'starttime' => $starttime,
-	    'endtime'   => $endtime,
-	    'timediff'  => $timediff[0]->timediff,
-	    'hoursdiff' => (int) $hoursdiff[0]->hoursdiff,
-	    'hourbytes' => $hoursbytes[0]->hoursbytes
+        'starttime' => $starttime,
+        'endtime'   => $endtime,
+        'timediff'  => $timediff[0]->timediff,
+        'hoursdiff' => (int) $hoursdiff[0]->hoursdiff,
+        'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 
         //$hourstats = Hoursstats::firstOrCreate($hourstats);
