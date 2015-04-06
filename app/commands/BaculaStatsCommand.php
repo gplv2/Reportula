@@ -47,7 +47,7 @@ class BaculaStatsCommand extends Command {
     public function fire() {
 
             /* Get Database Size */
-        if ( \Config::get('database.default')=="mysql") {
+        if (\Config::get('database.default')=="mysql") {
         $table_file = 'File'; // capital in mysql !
         $table_job = 'Job'; // capital in mysql !
             $dbsize = \DB::select('SELECT table_schema "Data Base Name",
@@ -76,7 +76,7 @@ class BaculaStatsCommand extends Command {
         $dataInicio = date('Y-m-d', strtotime("-1 days")).(' 18:29');
         $dataFim = date('Y-m-d').(' 18:29');
 
-    if ( \Config::get('database.default')=="mysql") {
+    if (\Config::get('database.default')=="mysql") {
         /* Query timediff Stats */
         $timediff = \DB::table($table_job)->select(\DB::raw('TIMEDIFF(max(starttime) , min(starttime)) AS timediff'))
             ->where('starttime', '>=', $dataInicio)
@@ -99,7 +99,7 @@ class BaculaStatsCommand extends Command {
 
         $fnumber = $filesNumber[0]->filesNumber;
 
-    } elseif ( \Config::get('database.default')=="pgsql") {
+    } elseif (\Config::get('database.default')=="pgsql") {
         /* Query timediff Stats */
         $timediff = \DB::table($table_job)->select(\DB::raw('(max(starttime) - min(starttime)) AS timediff'))
             ->where('starttime', '>=', $dataInicio)

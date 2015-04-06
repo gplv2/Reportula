@@ -7,7 +7,7 @@ class DashboardController extends BaseController
 {
     public function dashboard()
     {
-        if ( PHP_OS == 'Linux') {
+        if (PHP_OS=='Linux') {
             $fh = fopen('/proc/uptime', 'r');
             $uptime = fgets($fh);
             fclose($fh);
@@ -40,7 +40,7 @@ class DashboardController extends BaseController
 
             $mem_buffered = $memcache + $memfree;
             $mem_used = $memtotal - $memfree;
-            $memory_pct = round( $mem_buffered / $memtotal * 100);
+            $memory_pct = round($mem_buffered / $memtotal * 100);
             $swap_used = $swaptotal - $swapfree;
 
             $hdd_total = disk_total_space("/");
@@ -54,29 +54,29 @@ class DashboardController extends BaseController
             // Create MB's instead of kB's
             $mem_used = round(($mem_used / 1024));
             $mem_buffered = round(($mem_buffered / 1024));
-            if (!empty($swap_used)){
+            if (!empty($swap_used)) {
                 $swap_used = round(($swap_used / 1024));
             }
             $memtotal = round(($memtotal / 1024));
             $memfree = round(($memfree / 1024));
-            $mb=' MB';
-            $pct='%';
-            $gb=' GB';
+            $mb = ' MB';
+            $pct = '%';
+            $gb = ' GB';
         } else {
-            $uptime="N/A";
-            $hdd="N/A";
-            $mem_used="N/A";
-            $mem_total="N/A";
-            $mem_buffered="N/A";
-            $swap_used="N/A";
-            $memfree="N/A";
-            $memtotal="N/A";
-            $hdd_total="N/A";
-            $hdd_free="N/A";
-            $hdd_pct="N/A";
-            $mb='';
-            $gb='';
-            $pct='';
+            $uptime = "N/A";
+            $hdd = "N/A";
+            $mem_used = "N/A";
+            $mem_total = "N/A";
+            $mem_buffered = "N/A";
+            $swap_used = "N/A";
+            $memfree = "N/A";
+            $memtotal = "N/A";
+            $hdd_total = "N/A";
+            $hdd_free = "N/A";
+            $hdd_pct = "N/A";
+            $mb = '';
+            $gb = '';
+            $pct = '';
         }
 
         $rss = FeedReader::read('http://www.reportula.org/reportula/?feed=rss2');
@@ -86,26 +86,26 @@ class DashboardController extends BaseController
                     'host'	      => php_uname('n'),
                     'kernel'	      => php_uname('r'),
                     'phpversion'      => phpversion(),
-                    'used_mem'        => $mem_used . $mb,
-                    'total_mem'       => $memtotal . $mb,
-                    'buffered_mem'    => $mem_buffered . $mb,
-                    'used_swap'	      => $swap_used . $mb,
-                    'free_mem'        => $memfree . $mb,
-                    'hdd_total'       => $hdd_total . $gb,
-                    'hdd_free'        => $hdd_free . $gb,
-                    'hdd_pct'         => $hdd_pct . $pct,
+                    'used_mem'        => $mem_used.$mb,
+                    'total_mem'       => $memtotal.$mb,
+                    'buffered_mem'    => $mem_buffered.$mb,
+                    'used_swap'	      => $swap_used.$mb,
+                    'free_mem'        => $memfree.$mb,
+                    'hdd_total'       => $hdd_total.$gb,
+                    'hdd_free'        => $hdd_free.$gb,
+                    'hdd_pct'         => $hdd_pct.$pct,
                     'uptime'          => $uptime
                     ));
     }
 
 }
 
-if (! function_exists('sec2human')) {
+if (!function_exists('sec2human')) {
     function sec2human($time) {
-        $seconds = $time%60;
-        $mins = floor($time/60)%60;
-        $hours = floor($time/60/60)%24;
-        $days = floor($time/60/60/24);
-        return $days > 0 ? $days . ' day'.($days > 1 ? 's' : '') : $hours.':'.$mins.':'.$seconds;
+        $seconds = $time % 60;
+        $mins = floor($time / 60) % 60;
+        $hours = floor($time / 60 / 60) % 24;
+        $days = floor($time / 60 / 60 / 24);
+        return $days > 0 ? $days.' day'.($days > 1 ? 's' : '') : $hours.':'.$mins.':'.$seconds;
     }
 }
