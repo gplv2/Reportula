@@ -18,13 +18,16 @@
 	    <b>Host   : </b> {{ $host }}</br>
  	    <b>Kernel : </b> {{ $kernel }}</br>
             <b>Server Uptime : </b> {{ $uptime }}</br>
-            <b>Total Memory  : </b> {{ $total_mem }}MB</br>
-            <b>Used Memory   : </b> {{ $used_mem }}MB</br>
-            <b>Buffered Mem  : </b> {{ $buffered_mem }}MB</br>
-            <b>Free Memory   : </b> {{ $free_mem }}MB</br>
-            <b>Used Swap     : </b> {{ $used_swap }}MB</br>
-            <b>PHP version   : </b> {{ $phpversion }}MB</br>
-		</div>
+            <b>PHP version   : </b> {{ $phpversion }}</br>
+            <b>Total Memory  : </b> {{ $total_mem }}</br>
+            <b>Used Memory   : </b> {{ $used_mem }}</br>
+            <b>Buffered Mem  : </b> {{ $buffered_mem }}</br>
+            <b>Free Memory   : </b> {{ $free_mem }}</br>
+            <b>Used Swap     : </b> {{ $used_swap }}</br>
+            <b>Total Disk    : </b> {{ $hdd_total }}</br>
+            <b>Free Disk     : </b> {{ $hdd_free }}</br>
+            <b>Free Pct      : </b> {{ $hdd_pct }}</br>
+	</div>
     </div>
 </div>
 @endsection
