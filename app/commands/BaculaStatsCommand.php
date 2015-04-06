@@ -45,11 +45,14 @@ class BaculaStatsCommand extends Command {
      * @return void
      */
     public function fire() {
-
-            /* Get Database Size */
-        if (\Config::get('database.default')=='mysql') {
         $table_file = 'File'; // capital in mysql !
         $table_job = 'Job'; // capital in mysql !
+        $timediff = null;
+        $hoursdiff = null;
+        $hoursbytes = null;
+
+	/* Get Database Size */
+        if (\Config::get('database.default')=='mysql') {
             $dbsize = \DB::select('SELECT table_schema "Data Base Name",
                             SUM( data_length + index_length) / 1024 / 1024 "dbsize"
                             FROM information_schema.TABLES
