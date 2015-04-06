@@ -11,13 +11,13 @@
 		"bllim/datatables": "*",
 		"orchestra/asset": "2.0.*",
 		"jenssegers/date": "*",
-		"barryvdh/laravel-ide-helper": "1.*",
-    "barryvdh/laravel-dompdf": "0.4.*",
+    		"barryvdh/laravel-dompdf": "0.4.*",
 		"adldap/adldap": "4.0.4",
 		"jasonlewis/expressive-date": "1.0.*",
 		"barryvdh/laravel-debugbar": "1.*",
-		"awjudd/feed-reader": "1.1.*"
-
+		"awjudd/feed-reader": "1.1.*",
+        	"phpunit/php-code-coverage": "~2.0",
+		"barryvdh/laravel-ide-helper": "~1.11"
 	},
 	"repositories" : [
         {
@@ -60,6 +60,7 @@
 		"post-update-cmd": [
 			"php artisan debugbar:publish",
 			"php artisan clear-compiled",
+        		"php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [

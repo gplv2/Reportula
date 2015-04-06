@@ -43,7 +43,7 @@ class HipChatHandler extends SocketHandler
     private $token;
 
     /**
-     * @var array
+     * @var string
      */
     private $room;
 
@@ -53,7 +53,7 @@ class HipChatHandler extends SocketHandler
     private $name;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $notify;
 
@@ -73,8 +73,8 @@ class HipChatHandler extends SocketHandler
      * @param string  $name   Name used in the "from" field
      * @param bool    $notify Trigger a notification in clients or not
      * @param int     $level  The minimum logging level at which this handler will be triggered
-     * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
-     * @param Boolean $useSSL Whether to connect via SSL.
+     * @param bool    $bubble Whether the messages that are handled can bubble up the stack or not
+     * @param bool    $useSSL Whether to connect via SSL.
      * @param string  $format The format of the messages (default to text, can be set to html if you have html in the messages)
      * @param string  $host   The HipChat server hostname.
      */
@@ -235,19 +235,19 @@ class HipChatHandler extends SocketHandler
             }
 
             $messages[] = $record['message'];
-            $messgeStr = implode(PHP_EOL, $messages);
+            $messageStr = implode(PHP_EOL, $messages);
             $formattedMessages[] = $this->getFormatter()->format($record);
             $formattedMessageStr = implode('', $formattedMessages);
 
             $batchRecord = array(
-                'message'   => $messgeStr,
+                'message'   => $messageStr,
                 'formatted' => $formattedMessageStr,
                 'context'   => array(),
                 'extra'     => array(),
             );
 
             if (!$this->validateStringLength($batchRecord['formatted'], static::MAXIMUM_MESSAGE_LENGTH)) {
-                // Pop the last message and implode the remainging messages
+                // Pop the last message and implode the remaining messages
                 $lastMessage = array_pop($messages);
                 $lastFormattedMessage = array_pop($formattedMessages);
                 $batchRecord['message'] = implode(PHP_EOL, $messages);

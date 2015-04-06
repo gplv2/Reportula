@@ -360,7 +360,7 @@ class User extends Model implements UserInterface {
 			return false;
 		}
 
-		return $persistCode == $this->persist_code;
+		return $persistCode === $this->persist_code;
 	}
 
 	/**
@@ -806,7 +806,7 @@ class User extends Model implements UserInterface {
 			throw new \RuntimeException("A hasher has not been provided for the user.");
 		}
 
-		return static::$hasher->checkhash($string, $hashedString);
+		return static::$hasher->checkHash($string, $hashedString);
 	}
 
 	/**

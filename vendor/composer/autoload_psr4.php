@@ -6,8 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Laravel\\' => array($vendorDir . '/anahkiasen/former/src/Laravel'),
+    'Jenssegers\\Date\\' => array($vendorDir . '/jenssegers/date/src'),
     'HtmlObject\\' => array($vendorDir . '/anahkiasen/html-object/src'),
     'Former\\' => array($vendorDir . '/anahkiasen/former/src/Former', $vendorDir . '/anahkiasen/former/tests'),
     'Barryvdh\\LaravelIdeHelper\\' => array($vendorDir . '/barryvdh/laravel-ide-helper/src'),

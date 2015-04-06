@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/barryvdh/laravel-debugbar/version.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 [![Total Downloads](https://poser.pugx.org/barryvdh/laravel-debugbar/d/total.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 
-### For Laravel 5, please use the [2.0 branch](https://github.com/barryvdh/laravel-debugbar/tree/2.0)!
+### For Laravel 5, please use the [2.0 branch](https://github.com/barryvdh/laravel-debugbar)!
 
 This is a package to integrate [PHP Debug Bar](http://phpdebugbar.com/) with Laravel.
 It includes a ServiceProvider to register the debugbar and attach it to the output. You can publish assets and configure it through Laravel.
@@ -44,7 +44,7 @@ It also provides a Facade interface for easy logging Messages, Exceptions and Ti
 Require this package with composer:
 
 ```
-composer require barryvdh/laravel-debugbar
+composer require barryvdh/laravel-debugbar:~1.8
 ```
 
 After updating composer, add the ServiceProvider to the providers array in app/config/app.php
