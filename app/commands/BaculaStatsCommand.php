@@ -1,4 +1,5 @@
 <?php
+namespace app\commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,7 +42,7 @@ class BaculaStatsCommand extends Command {
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function fire() {
 
@@ -110,7 +111,6 @@ class BaculaStatsCommand extends Command {
             'databasesize' => $dbsize[0]->dbsize
         );
 
-
 	$hourstats = array(
             'data'      => date('Y-m-d'),
 	    'server'    => $servername,
@@ -124,5 +124,9 @@ class BaculaStatsCommand extends Command {
 
         $hourstats = Hoursstats::firstOrCreate($hourstats);
         $daystats = Daystats::firstOrCreate($daystats);
+
+        //Hoursstats::insert($hourstats);
+        //Daystats::insert($daystats);
+
     }
 }
