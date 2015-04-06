@@ -43,7 +43,7 @@ class DashboardController extends BaseController
         // Caching DbSize Value
         $dbsize = Cache::rememberForever('dbsize', function() {
             /* Get Database Size */
-            if (Config::get('database.default')=="mysql") {
+            if (Config::get('database.default')=='mysql') {
                 $dbsize = DB::select('SELECT table_schema "Data Base Name",
                                 SUM( data_length + index_length) / 1024 / 1024 "dbsize"
                                 FROM information_schema.TABLES
