@@ -47,7 +47,7 @@ class AuthController extends BaseController
                                 ));
                 // Try Ldap Login
                 $valid_login = $adldap->user()->authenticate(Input::get('username'), Input::get('password'));
-                if ($valid_login==true) {
+                if ($valid_login===true) {
                     $user = $adldap->user()->infoCollection(Input::get('username'));
                     $user = Sentry::findUserByLogin($user->mail);
                     Sentry::login($user, false);
