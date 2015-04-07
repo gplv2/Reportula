@@ -125,16 +125,16 @@ class DashboardController extends BaseController
         // Number Running Jobs
         $runningJobs = count($runJobs);
 
-            /* Get Watting Jobs */
-        $wateJobs = Job::where('starttime', '>=', $date)
+            /* Get Waiting Jobs */
+        $waitJobs = Job::where('starttime', '>=', $date)
                 ->wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'));
                 /* if ($this->group_permissions_jobs[0]<>'') {
-                    $wateJobs->where_in('name', $this->group_permissions_jobs);
+                    $waitJobs->where_in('name', $this->group_permissions_jobs);
                 }*/
-                $wateJobs = $wateJobs->get();
+                $waitJobs = $waitJobs->get();
 
-        // Number Watting Jobs
-        $wattingJobs = count($wateJobs);
+        // Number Waiting Jobs
+        $waitingJobs = count($waitJobs);
 
             /* Get Error Jobs */
         $errJobs = Job::where('starttime', '>=', $date)
@@ -175,7 +175,7 @@ class DashboardController extends BaseController
                                     'nTransFiles'   => preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/", ",", $nTransFiles),
                                     'cancelJobs'    => $cancelJobs,
                                     'runningJobs'   => $runningJobs,
-                                    'wattingJobs'   => $wattingJobs,
+                                    'waitingJobs'   => $waitingJobs,
                                     'errorJobs'     => $errorJobs,
                                     'nTransBytes'   => $this->byte_format($nTransBytes),
                                     'nameDate'      => $nameDate, // Date Name
@@ -207,7 +207,7 @@ class DashboardController extends BaseController
             case "running":
                 $tjobs->where('jobstatus', '=', 'R');
                 break;
-            case "watting":
+            case "waiting":
                 $tjobs->wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'));
                 break;
             case "error":
