@@ -11,7 +11,7 @@
 Reportula is a php based web program that provides you a summarized output stats of Bacula Backups jobs, clients, volumes and director that have
 already run. It obtains its information from your catalog database.
 
-This is a fairly high level bacula management tool. 
+This is a bacula backup management tool. 
 
 Display last jobs status
 Display volumes usage by pool
@@ -25,10 +25,6 @@ Search options
 List the files stored on job
 Acl Supports and Login users support
 Integration with Active Directory or Ldap servers
-
-## Official Documentation
-
-### Contributing To Reportula
 
 ### License
 
