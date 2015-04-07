@@ -72,7 +72,6 @@ class DashboardController extends BaseController
 
     public function dashboard($data = null)
     {
-        /* Possbilidade de utilizar as datas*/
         $datetype = $data;
 
         if ($data===null || $data=='day') {
@@ -89,7 +88,6 @@ class DashboardController extends BaseController
             $date = Date::now()->sub('1 month');
             $nameDate = 'Last Month';
         }
-
 
 
         /* Get Terminated Jobs */
