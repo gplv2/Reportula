@@ -68,7 +68,7 @@ class JobsController extends BaseController
 
         // Get Clients to fill the Client Select Box And Select Values From Permissions
         $permissions = Userspermissions::where('id', '=', $user->id)->first();
-        if ($permissions<>null) {
+        if ($permissions!==null) {
             $permissions = unserialize($permissions->jobs);
             $jobs = Job::wherein('jobid', $permissions)->remember(10)->get();
             $jobsSelectBox = Job::jobSelectBox($jobs->toArray());

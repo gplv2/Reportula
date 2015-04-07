@@ -75,7 +75,7 @@ class DashboardController extends BaseController
         /* Possbilidade de utilizar as datas*/
         $datetype = $data;
 
-        if ($data==null || $data=='day') {
+        if ($data===null || $data=='day') {
             $datetype = 'day';
             $date = Date::now()->sub('1 day');
 

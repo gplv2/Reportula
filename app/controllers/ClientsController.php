@@ -54,7 +54,7 @@ class ClientsController extends BaseController
 
         // Get Clients to fill the Client Select Box And Select Values From Permissions
         $permissions = Userspermissions::where('id', '=', $user->id)->remember(10)->first();
-        if ($permissions<>null) {
+        if ($permissions!==null) {
             $permissions = unserialize($permissions->clients);
             $clients = Client::wherein('clientid', $permissions)->remember(10)->get();
             $clientSelectBox = Client::clientSelectBox($clients->toArray());

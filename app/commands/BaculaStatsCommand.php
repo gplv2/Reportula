@@ -1,5 +1,4 @@
 <?php
-// namespace app\commands;
 
 use app\controllers\Config;
 use app\controllers\DB;
@@ -124,7 +123,6 @@ class BaculaStatsCommand extends Command {
                 $fnumber = $filesNumber[0]->filesnumber;
     }
 
-    // echo print_r(\DB::getQueryLog());
 
         $jobbytes  = $query->sum('jobbytes');
         $starttime = $query->min('starttime');
@@ -152,11 +150,8 @@ class BaculaStatsCommand extends Command {
         'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 
-        //$hourstats = Hoursstats::firstOrCreate($hourstats);
-        //$daystats = Daystats::firstOrCreate($daystats);
-
-        Hoursstats::insert($hourstats);
-        Daystats::insert($daystats);
+        Hoursstats::firstOrCreate($hourstats);
+        Daystats::firstOrCreate($daystats);
 
     }
 }
