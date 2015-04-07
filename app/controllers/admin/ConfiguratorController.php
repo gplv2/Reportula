@@ -868,7 +868,6 @@ class ConfiguratorController extends BaseController
         }
         $nfiles = count($conffiles);
 
-
 		foreach ($conffiles as $file) {
 			$config = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 			$filename = $file->getFilename();
