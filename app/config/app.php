@@ -112,15 +112,12 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-
 		'Cartalyst\Sentry\SentryServiceProvider',
 		'Former\FormerServiceProvider',
 		'Bllim\Datatables\DatatablesServiceProvider',
 		'Orchestra\Asset\AssetServiceProvider',
 		'Jenssegers\Date\DateServiceProvider',
-
 		'ExpressiveDateServiceProvider',
-
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		/* RSS READER */
@@ -197,7 +194,6 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-
 		'Sentry' 		      => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 		'Former' 		      => 'Former\Facades\Former',
 		'Datatables'      => 'Bllim\Datatables\Datatables',

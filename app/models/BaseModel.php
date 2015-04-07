@@ -48,7 +48,7 @@ public function getAllColumnsNames()
 
             default:
                 $error = 'Database driver not supported: '.DB::connection()->getConfig('driver');
-                throw new Exception($error);
+                throw new \Exception($error);
                 break;
         }
 
