@@ -15,22 +15,22 @@ class CfgFileset extends BaseModel
 
     public function cfgfilesetinclude()
     {
-        return $this->hasMany('app\models\Cfgfilesetinclude','idfileset','id');
+        return $this->hasMany('app\models\Cfgfilesetinclude', 'idfileset', 'id');
     }
 
     public function cfgfilesetexclude()
     {
-        return $this->hasMany('app\models\Cfgfilesetexclude','idfileset','id');
+        return $this->hasMany('app\models\Cfgfilesetexclude', 'idfileset', 'id');
     }
 
     public function cfgfilesetincludeoptions()
     {
-        return $this->hasMany('app\models\Cfgfilesetincludeoptions','idfileset','id');
+        return $this->hasMany('app\models\Cfgfilesetincludeoptions', 'idfileset', 'id');
     }
 
         public function cfgfilesetexcludeoptions()
     {
-        return $this->hasMany('app\models\Cfgfilesetexcludeoptions','idfileset','id');
+        return $this->hasMany('app\models\Cfgfilesetexcludeoptions', 'idfileset', 'id');
     }
 
 

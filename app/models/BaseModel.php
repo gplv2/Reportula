@@ -39,12 +39,12 @@ public function getAllColumnsNames()
 
         $columns = array();
 
-        foreach(DB::select($query) as $column)
+        foreach (DB::select($query) as $column)
         {
             $columns[] = $column->$column_name;
         }
 
-        if($reverse)
+        if ($reverse)
         {
             $columns = array_reverse($columns);
         }
