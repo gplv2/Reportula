@@ -463,8 +463,8 @@ class ConfiguratorController extends BaseController
             if ($key=='RescheduleTimes') { $key = 'Reschedule Times'; }
             if ($key=='AllowDuplicateJobs') { $key = 'Allow Duplicate Jobs'; }
             if ($key=='CancelLowerLevelDuplicates') { $key = 'Cancel Lower Level Duplicates'; }
-            if ($key=='CancelQueuedDuplicates') { $key = "Cancel Queued Duplicates'; }
-            if ($key=='CancelRunningDuplicates') { $key = 'Cancel Running Duplicates"; }
+            if ($key=='CancelQueuedDuplicates') { $key = 'Cancel Queued Duplicates'; }
+            if ($key=='CancelRunningDuplicates') { $key = 'Cancel Running Duplicates'; }
             if ($key=='AllowMixedPriority') { $key = 'Allow Mixed Priority'; }
             if ($key=='WritePartAfterJob') { $key = 'Write Part After Job'; }
 
