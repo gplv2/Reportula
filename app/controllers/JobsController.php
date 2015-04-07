@@ -10,6 +10,7 @@ use app\models\Client;
 use app\models\Media;
 use app\models\Job;
 use app\models\Cfgjob;
+use app\models\CfgFileset;
 use app\models\Userspermissions;
 
 class JobsController extends BaseController

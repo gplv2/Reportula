@@ -56,7 +56,7 @@ class AuthController extends BaseController
                 } else {
                         echo json_encode(array('html' => '<div class="alert alert-error"> User was not found  </div> '));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error">'.$e->getMessage().' </div> '));
             }
 
@@ -66,15 +66,15 @@ class AuthController extends BaseController
                 if ($user) {
                     echo json_encode(array('location' => 'dashboard/day'));
                 }
-            } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
+            } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> Login field is required </div> '));
-            } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
+            } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> Password field is required  </div> '));
-            } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
+            } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> Wrong password, try again  </div> '));
-            } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> User was not found  </div> '));
-            } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
+            } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> User is not activated  </div> '));
             } catch (\Exception $e) {
                 // Log::info( $e->getMessage() );

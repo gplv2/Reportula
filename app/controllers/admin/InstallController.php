@@ -89,7 +89,7 @@ class InstallController extends Controller
         try {
             DB::connection(Config::get('database.default'))->getPdo();
             echo json_encode(array('html' => '<div class="alert alert-success"><i class="icon-fam-accept"></i> The Connection to the database was suscessfull  </div> '));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> <i class="icon-fam-cancel"></i> The Connection to the database was unuscessfull </div>'));
         }
 
