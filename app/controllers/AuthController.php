@@ -36,7 +36,7 @@ class AuthController extends BaseController
 
         // Check if it Has Ldap Activated
         $settings = Settings::find(1);
-        if ($settings<>null && $settings->ldapon=='1') {
+        if ($settings!==null && $settings->ldapon=='1') {
             try {
                 $adldap = new adLDAP(array('base_dn'    => $settings->ldapbasedn,
                                     'account_suffix'      => $settings->ldapdomain,
