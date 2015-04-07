@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-use Auth, Controller, Form, Input, Redirect, Sentry;
+use Auth, Controller, Form, Input, Redirect, Session, Sentry;
 use View, Log, Config, DB, Validator, Schema, Asset, Url;
 
 use app\models\Group;
