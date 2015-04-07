@@ -6,7 +6,6 @@ use Input;
 use Redirect;
 use Sentry;
 use View;
-//use Log;
 use Asset;
 use adLDAP;
 use app\models\Settings;
@@ -77,7 +76,6 @@ class AuthController extends BaseController
             } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
                 echo json_encode(array('html' => '<div class="alert alert-error"> User is not activated  </div> '));
             } catch (\Exception $e) {
-                // Log::info( $e->getMessage() );
                 echo json_encode(array('html' => '<div class="alert alert-error">'.$e->getMessage().' </div> '));
             }
         }
