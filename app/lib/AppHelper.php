@@ -21,7 +21,7 @@ class AppHelper {
             $unit = 'Gb';
         } elseif ($num >= 1000000) {
             $num = round($num / 1048576, $precision);
-            $unit ='Mb';
+            $unit = 'Mb';
         } elseif ($num >= 1000) {
             $num = round($num / 1024, $precision);
             $unit = 'Kb';

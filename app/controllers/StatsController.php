@@ -137,8 +137,8 @@ class StatsController extends BaseController
                 'hourbytes' => $hoursbytes[0]->hoursbytes
         );
 
-       	$hourstats = Hoursstats::firstOrCreate($hourstats);
-       	$daystats = Daystats::firstOrCreate($daystats);
+            $hourstats = Hoursstats::firstOrCreate($hourstats);
+            $daystats = Daystats::firstOrCreate($daystats);
     }
 
 

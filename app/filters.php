@@ -11,11 +11,11 @@
 |
 */
 
-App::before(function ($request) {
+App::before(function($request) {
     //
 });
 
-App::after(function ($request, $response) {
+App::after(function($request, $response) {
     //
 });
 
@@ -29,14 +29,14 @@ App::after(function ($request, $response) {
 | integrates HTTP Basic authentication for quick, simple checking.
 |
 */
-Route::filter('auth.admin', function () {
-    if ( ! Sentry::check()) {
+Route::filter('auth.admin', function() {
+    if (!Sentry::check()) {
         return Redirect::route('admin.login');
     }
 });
 
-Route::filter('auth', function () {
-    if ( ! Sentry::check()) {
+Route::filter('auth', function() {
+    if (!Sentry::check()) {
         return Redirect::route('login');
     }
 });
@@ -57,7 +57,7 @@ Route::filter('auth.basic', function () {
 |
 */
 
-Route::filter('guest', function () {
+Route::filter('guest', function() {
     if (Auth::check()) {
         return Redirect::to('/index.php/');
     }
@@ -74,8 +74,8 @@ Route::filter('guest', function () {
 |
 */
 
-Route::filter('csrf', function () {
-    if (Session::token() != Input::get('_token')) {
+Route::filter('csrf', function() {
+    if (Session::token()!=Input::get('_token')) {
         throw new Illuminate\Session\TokenMismatchException;
     }
 });
@@ -87,9 +87,9 @@ sources :
     https://gist.github.com/garagesocial/6059962
     http://stackoverflow.com/questions/5312349/minifying-final-html-output-using-regular-expressions-with-codeigniter
 */
-App::after(function ($request, $response) {
+App::after(function($request, $response) {
     // HTML Minification
-    if (App::Environment() != 'local') {
+    if (App::Environment()!='local') {
         if ($response instanceof Illuminate\Http\Response) {
             $output = $response->getOriginalContent();
 
@@ -99,7 +99,7 @@ App::after(function ($request, $response) {
             );
             $output = preg_replace(array_keys($filters), array_values($filters), $output);
 
-            if ($output !== NULL) {
+            if ($output!==NULL) {
                 $response->setContent($output);
             }
         }
