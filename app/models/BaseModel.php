@@ -35,7 +35,13 @@ public function getAllColumnsNames()
                 $parts = explode('.', $this->table);
                 $num = (count($parts) - 1);
                 $table = $parts[$num];
-                $query = "SELECT column_name FROM ".DB::connection()->getConfig('database').".INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'".$table."'";
+
+		$property = DB::table("?.INFORMATION_SCHEMA.COLUMNS")
+			->select('column_name')
+			->and("TABLE_NAME", "=", "?")
+                        ->setBindings([DB::connection()->getConfig('database'), $this->table])
+                        ->get();
+
                 $column_name = 'column_name';
                 $reverse = false;
                 break;
