@@ -50,7 +50,7 @@ class BaculaStatsCommand extends Command {
         $hoursdiff = null;
         $hoursbytes = null;
 
-	/* Get Database Size */
+    /* Get Database Size */
         if (\Config::get('database.default')=='mysql') {
             $dbsize = \DB::select('SELECT table_schema "Data Base Name",
                             SUM( data_length + index_length) / 1024 / 1024 "dbsize"
