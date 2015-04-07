@@ -275,9 +275,7 @@ class ConfiguratorController extends BaseController
         }
         File::put($directory.'/conf.d/pools.conf', $contents);
 
-        ######################################################
-
-        ################## Sechedules ######################
+        // ################## Sechedules ######################
 
         $model = CfgSchedule::get();
         $model = $model->toArray();
@@ -301,10 +299,7 @@ class ConfiguratorController extends BaseController
         }
         File::put($directory.'/conf.d/schedule.conf', $contents);
 
-        ######################################################
-
-
-        ################## Storage ######################
+        // ################## Storage ######################
 
         $model = CfgStorage::get();
         $model = $model->toArray();
@@ -326,8 +321,7 @@ class ConfiguratorController extends BaseController
         }
         File::put($directory.'/conf.d/storage.conf', $contents);
 
-        ######################################################
-        ################## Catalogs ######################
+        // ################## Catalogs ######################
 
         $model = CfgCatalog::get();
 
@@ -352,9 +346,7 @@ class ConfiguratorController extends BaseController
         }
         File::put($directory.'/conf.d/catalog.conf', $contents);
 
-        ######################################################
-
-        ################## Console ######################
+        // ################## Console ######################
 
         $model = CfgConsole::get();
 
@@ -371,9 +363,7 @@ class ConfiguratorController extends BaseController
         }
         File::put($directory.'/conf.d/console.conf', $contents);
 
-        ######################################################
-
-        ################## Messages ######################
+        // ################## Messages ######################
 
         $model = CfgMessage::get();
 
@@ -390,9 +380,7 @@ class ConfiguratorController extends BaseController
         }
         File::put($directory.'/conf.d/messages.conf', $contents);
 
-        ######################################################
-
-        ################## Clients ######################
+        // ################## Clients ######################
 
         $model = CfgClient::get();
 
@@ -421,13 +409,12 @@ class ConfiguratorController extends BaseController
         }
         $contents .= "}\n\n";
 
-    #tweak filename to remove spaces, they are a bit of a hassle later
+    // #tweak filename to remove spaces, they are a bit of a hassle later
     $clientfname = preg_replace("/\s+/", "-", $clientname);
         File::put($directory.'/conf.d/clients/'.$clientfname.'.conf', $contents);
         }
-        ######################################################
 
-        ################## Jobs ######################
+        // ################## Jobs ######################
 
         $model = CfgJob::get();
 
@@ -491,9 +478,7 @@ class ConfiguratorController extends BaseController
     $jobfname = preg_replace("/\s+/", "-", $jobname);
         File::put($directory.'/conf.d/jobs/'.$jobfname.'.conf', $contents);
         }
-        ######################################################*/
-
-        ################## FileSets ######################
+        // ################## FileSets ######################
 
         $model = CfgFileset::get();
         $model = $model->toArray();
@@ -564,7 +549,6 @@ class ConfiguratorController extends BaseController
     $filesetfname = preg_replace("/\s+/", "-", $filesetname);
         File::put($directory.'/conf.d/filesets/'.$filesetfname.'.conf', $contents);
         }
-        ######################################################
 
         if ((Input::get('type')=='test')) {
         $output = shell_exec('sudo bacula-dir -t -c '.$directory.$dirname);
