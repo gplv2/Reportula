@@ -84,8 +84,8 @@ class ConfiguratorController extends BaseController
     {
         $node = Input::get('node', '');
         $parent = substr(Input::get('parent', ''), 0, -1);
-        $classname = "app\models\Cfg".$parent;
-        if ($parent!="Fileset") {
+        $classname = 'app\models\Cfg'.$parent;
+        if ($parent!='Fileset') {
             $viewvalues = $classname::orderBy('Name')->where('Name', $node)->first()->toArray();
         } else {
             $viewvalues = $classname::with('Cfgfilesetinclude')
@@ -111,32 +111,30 @@ class ConfiguratorController extends BaseController
         $valuearray  = array();
         $tree        = array();
         $values      = array();
-        $conffiles = array();
-        $schedulerun = array();
 
         $key = 2;
-        $models = array("Director", "Storage",
-                        "Client", "Job", "Fileset",
-                        "Schedule", "Pool", "Catalog",
-                        "Console", "Message"
+        $models = array('Director', 'Storage',
+                        'Client', 'Job', 'Fileset',
+                        'Schedule', 'Pool', 'Catalog',
+                        'Console', 'Message'
                         );
         $lastkey = 1;
         foreach ($models as $model)
         {
-            $classname = "app\models\Cfg".$model;
+            $classname = 'app\models\Cfg'.$model;
             $values = $classname::orderBy('Name')->get();
             foreach ($values as $value)
             {
                 $valuearray[] = array('key'=> $key++, 'title' => $value->Name, 'parent' => $value->id);
             }
-            if (!isset($valuearray)) { $valuearray = ""; }
+            if (!isset($valuearray)) { $valuearray = ''; }
 
             $tree[] = array('key'         => $lastkey,
-                        'title'       => $model."s",
+                        'title'       => $model.'s',
                         'folder'      => 'true',
                         'children'    => $valuearray
                         );
-            $valuearray = "";
+            $valuearray = '';
             $lastkey = $key;
         }
 
@@ -168,7 +166,7 @@ class ConfiguratorController extends BaseController
         $settings = Settings::find(1);
 
         $directory = $settings->confdir;
-        $dirname = "bacula-dir.conf";
+        $dirname = 'bacula-dir.conf';
 
         if ((Input::get('type')=="test")) {
         $directory = $directory.'/reportulateste';
@@ -192,13 +190,13 @@ class ConfiguratorController extends BaseController
         foreach ($model as $key => $value) {
         if ($value!="" && $key!='id') {
 
-            if ($key=='MaximumConcurrentJobs') { $key = "Maximum Concurrent Jobs"; }
-            if ($key=='HeartbeatInterval') { $key = "Heartbeat Interval"; }
-            if ($key=='PidDirectory') { $key = "Pid Directory"; }
-            if ($key=='ScriptsDirectory') { $key = "Scripts Directory"; }
-            if ($key=='FDConnectTimeout') { $key = "FD Connect Timeout"; }
-            if ($key=='SDConnectTimeout') { $key = "SD Connect Timeout"; }
-            if ($key=='StatisticsRetention') { $key = "Statistics Retention"; }
+            if ($key=='MaximumConcurrentJobs') { $key = 'Maximum Concurrent Jobs'; }
+            if ($key=='HeartbeatInterval') { $key = 'Heartbeat Interval'; }
+            if ($key=='PidDirectory') { $key = 'Pid Directory'; }
+            if ($key=='ScriptsDirectory') { $key = 'Scripts Directory'; }
+            if ($key=='FDConnectTimeout') { $key = 'FD Connect Timeout'; }
+            if ($key=='SDConnectTimeout') { $key = 'SD Connect Timeout'; }
+            if ($key=='StatisticsRetention') { $key = 'Statistics Retention'; }
 
             $contents .= "\t".$key.' = '.$value."\n";
         }
@@ -238,11 +236,10 @@ class ConfiguratorController extends BaseController
       ";
 
         File::put($directory.'/'.$dirname, $contents);
-        ################## Pools ######################
 
         $model = CfgPool::get();
         $model = $model->toArray();
-        $contents = "";
+        $contents = '';
         foreach ($model as $v1) {
         $contents .= "Pool {\n";
         foreach ($v1 as $key => $value) {
@@ -284,7 +281,7 @@ class ConfiguratorController extends BaseController
 
         $model = CfgSchedule::get();
         $model = $model->toArray();
-        $contents = "";
+        $contents = '';
         foreach ($model as $v1) {
         $idschedule = $v1['id'];
         $contents .= "Schedule {\n";
@@ -311,7 +308,7 @@ class ConfiguratorController extends BaseController
 
         $model = CfgStorage::get();
         $model = $model->toArray();
-        $contents = "";
+        $contents = '';
         foreach ($model as $v1) {
         $contents .= "Storage {\n";
         foreach ($v1 as $key => $value) {
@@ -335,7 +332,7 @@ class ConfiguratorController extends BaseController
         $model = CfgCatalog::get();
 
         $model = $model->toArray();
-        $contents = "";
+        $contents = '';
         foreach ($model as $v1) {
         $contents .= "Catalog {\n";
         foreach ($v1 as $key => $value) {
@@ -362,7 +359,7 @@ class ConfiguratorController extends BaseController
         $model = CfgConsole::get();
 
         $model = $model->toArray();
-        $contents = "";
+        $contents = '';
         foreach ($model as $v1) {
         $contents .= "Console {\n";
         foreach ($v1 as $key => $value) {
@@ -381,7 +378,7 @@ class ConfiguratorController extends BaseController
         $model = CfgMessage::get();
 
         $model = $model->toArray();
-        $contents = "";
+        $contents = '';
         foreach ($model as $v1) {
         $contents .= "Messages {\n";
         foreach ($v1 as $key => $value) {
@@ -402,7 +399,7 @@ class ConfiguratorController extends BaseController
         $model = $model->toArray();
 
         foreach ($model as $v1) {
-        $contents = "";
+        $contents = '';
         $clientname = $v1['Name'];
         $contents .= "Client {\n";
         foreach ($v1 as $key => $value) {
@@ -437,7 +434,7 @@ class ConfiguratorController extends BaseController
         $model = $model->toArray();
 
         foreach ($model as $v1) {
-        $contents = "";
+        $contents = '';
         $jobname = $v1['Name'];
         $contents .= "Job {\n";
         /* check if is Default Job */
@@ -502,7 +499,7 @@ class ConfiguratorController extends BaseController
         $model = $model->toArray();
 
         foreach ($model as $v1) {
-        $contents = "";
+        $contents = '';
         $fileset = $v1['id'];
         $filesetname = $v1['Name'];
         $contents .= "FileSet {\n";
@@ -588,7 +585,7 @@ class ConfiguratorController extends BaseController
     public function deleteitem()
     {
         $parent = substr(Input::get('parent', ''), 0, -1);
-        $classname = "app\models\Cfg".$parent;
+        $classname = 'app\models\Cfg'.$parent;
 
         $item = $classname::find(Input::get('id'));
         $item->delete();
@@ -609,7 +606,7 @@ class ConfiguratorController extends BaseController
     public function newitem()
     {
         $parent = substr(Input::get('parent', ''), 0, -1);
-        $classname  = "app\models\Cfg".$parent;
+        $classname  = 'app\models\Cfg'.$parent;
         $model = new  $classname;
         $viewvalues = $model->getAllColumnsNames();
         foreach ($viewvalues as  $value) {
@@ -632,7 +629,7 @@ class ConfiguratorController extends BaseController
     {
         $save = Input::all();
         $config = substr($save['config'], 0, -1);
-        $classname = "app\models\Cfg".$config;
+        $classname = 'app\models\Cfg'.$config;
         $save = array_except($save, array('config', '_token'));
         if (Input::get('id')!='') {
         $values = $classname::find(Input::get('id'));
