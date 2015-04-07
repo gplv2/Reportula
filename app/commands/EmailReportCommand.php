@@ -70,7 +70,7 @@ class EmailReportCommand extends Command {
             Mail::send('emails.report', $data, function($message)
             {
                 $message->to($email->emails)
-                        ->subject('Bacukps Stats '.$sechedule.' Report');
+                        ->subject('Bacukps Stats '.$schedule.' Report');
             });
         }
 
