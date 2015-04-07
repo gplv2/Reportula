@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites>
-  <testsuite name="Application Test Suite" tests="1" assertions="1" failures="0" errors="0" time="2.116723">
-    <testsuite name="ExampleTest" file="/home/glenn/reportula_git/app/tests/ExampleTest.php" tests="1" assertions="1" failures="0" errors="0" time="2.116723">
-      <testcase name="testBasicExample" class="ExampleTest" file="/home/glenn/reportula_git/app/tests/ExampleTest.php" line="10" assertions="1" time="2.116723"/>
-    </testsuite>
-  </testsuite>
-</testsuites>
