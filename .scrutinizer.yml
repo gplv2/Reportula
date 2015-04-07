@@ -23,7 +23,7 @@ checks:
         optional_parameters_at_the_end: true
         no_new_line_at_end_of_file: true
         line_length:
-            max_length: '120'
+            max_length: '180'
         function_in_camel_caps: true
         fix_use_statements:
             remove_unused: true
