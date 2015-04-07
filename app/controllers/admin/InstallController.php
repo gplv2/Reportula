@@ -82,7 +82,7 @@ class InstallController extends Controller
 
     /**
      * TestDb Action
-     * @return Sucess/Failed Html Code
+     * @return Success/Failed Html Code
      */
     public function testDb()
     {
@@ -96,17 +96,17 @@ class InstallController extends Controller
     }
 
     /**
-     * Sucess Action
-     * @return Sucess Html Code
+     * Success Action
+     * @return Success Html Code
      */
-    public function installSucess()
+    public function installSuccess()
     {
-        return View::make('admin.sucess');
+        return View::make('admin.success');
     }
 
     public function installSave2()
     {
-        echo json_encode(array('location' => 'install/installSucess'));
+        echo json_encode(array('location' => 'install/installSuccess'));
     }
 
     public function installSave()
@@ -641,7 +641,7 @@ class InstallController extends Controller
                     $table->text('when')->nullable();
                 });
             }
-            echo json_encode(array('location' =>  'install/installSucess'));
+            echo json_encode(array('location' =>  'install/installSuccess'));
         } catch (Sentry\SentryException $e) {
             // $errors = new Laravel\Messages();
             Session::flash('status_error', $e->getMessage());
