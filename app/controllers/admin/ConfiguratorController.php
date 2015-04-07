@@ -188,7 +188,7 @@ class ConfiguratorController extends BaseController
         $model = $model->toArray();
 
         foreach ($model as $key => $value) {
-        if ($value!="" && $key!='id') {
+        if ($value!='' && $key!='id') {
 
             if ($key=='MaximumConcurrentJobs') { $key = 'Maximum Concurrent Jobs'; }
             if ($key=='HeartbeatInterval') { $key = 'Heartbeat Interval'; }
@@ -243,7 +243,7 @@ class ConfiguratorController extends BaseController
         foreach ($model as $v1) {
         $contents .= "Pool {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
 
             if ($key=='PoolType') { $key = "Pool Type"; }
             if ($key=='VolumeRetention') { $key = "Volume Retention"; }
@@ -284,7 +284,7 @@ class ConfiguratorController extends BaseController
         $idschedule = $v1['id'];
         $contents .= "Schedule {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
             $contents .= "\t".$key.' = '.$value."\n";
             $run = cfgSchedulerun::where('idschedule', '=', $idschedule)->get();
             $run = $run->toArray();
@@ -307,7 +307,7 @@ class ConfiguratorController extends BaseController
         foreach ($model as $v1) {
         $contents .= "Storage {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
 
             if ($key=='SDPort') { $key = "SD Port"; }
             if ($key=='MediaType') { $key = "Media Type"; }
@@ -330,7 +330,7 @@ class ConfiguratorController extends BaseController
         foreach ($model as $v1) {
         $contents .= "Catalog {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
 
             if ($key=='DBName') { $key = "DB Name"; }
             if ($key=='DBSocket') { $key = "DB Socket"; }
@@ -355,7 +355,7 @@ class ConfiguratorController extends BaseController
         foreach ($model as $v1) {
         $contents .= "Console {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
             $contents .= "\t".$key.' = '.$value."\n";
             }
         }
@@ -372,7 +372,7 @@ class ConfiguratorController extends BaseController
         foreach ($model as $v1) {
         $contents .= "Messages {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
             $contents .= "\t".$key.' = '.$value."\n";
             }
         }
@@ -391,7 +391,7 @@ class ConfiguratorController extends BaseController
         $clientname = $v1['Name'];
         $contents .= "Client {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
 
             if ($key=='PidDirectory') { $key = "Pid Directory"; }
             if ($key=='WorkingDirectory') { $key = "Working Directory"; }
@@ -428,7 +428,7 @@ class ConfiguratorController extends BaseController
         if ($v1['JobDefs']==Null) { $contents = ""; $contents .= "JobDefs {\n"; }
 
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
 
             if ($key=='VerifyJob') { $key = 'Verify Job'; }
             if ($key=='WriteBootstrap') { $key = 'Write Bootstrap'; }
@@ -489,7 +489,7 @@ class ConfiguratorController extends BaseController
         $filesetname = $v1['Name'];
         $contents .= "FileSet {\n";
         foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id') {
+            if ($value!='' && $key!='id') {
             if ($key=='IgnoreFileSetChanges') { $key = 'Ignore FileSet Changes'; }
             if ($key=='EnableVSS') { $key = 'Enable VSS'; }
             $contents .= "\t".$key.' = '.$value."\n";
@@ -512,7 +512,7 @@ class ConfiguratorController extends BaseController
         /* Include File */
         foreach ($inc as $v1) {
             foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id' && $key!='idfileset') {
+            if ($value!='' && $key!='id' && $key!='idfileset') {
                 $contents .= "\t\t\t File = ".$value."\n";
             }
             }
@@ -536,7 +536,7 @@ class ConfiguratorController extends BaseController
             /* Exclude File */
             foreach ($inc as $v1) {
             foreach ($v1 as $key => $value) {
-            if ($value!="" && $key!='id' && $key!='idfileset') {
+            if ($value!='' && $key!='id' && $key!='idfileset') {
                     $contents .= "\t\t\t File = ".$value."\n";
                 }
             }
