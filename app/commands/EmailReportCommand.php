@@ -67,10 +67,9 @@ class EmailReportCommand extends Command {
                         ->get();
                         $data['table'] = $tjobs;
             /* sends Email */
-            Mail::send('emails.report', $data, function($message)
+            Mail::send('emails.report', $data, function($message, $schedule)
             {
-                $message->to($email->emails)
-                        ->subject('Bacukps Stats '.$schedule.' Report');
+                $message->to($email->emails)->subject('Backups Stats '.$schedule.' Report');
             });
         }
 
