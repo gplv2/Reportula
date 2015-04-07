@@ -11,15 +11,24 @@ public function getAllColumnsNames()
     {
         switch (DB::connection()->getConfig('driver')) {
             case 'pgsql':
-                $query = "SELECT column_name FROM information_schema.columns WHERE table_name = '".$this->table."'";
-                $column_name = 'column_name';
+		$property = DB::table('information_schema.columns')
+			->select('column_name')
+			->where("table_name", "=", "?")
+                        ->setBindings([$this->table])
+                        ->get();
                 $reverse = true;
+                $column_name = "column_name";
                 break;
 
             case 'mysql':
-                $query = 'SHOW COLUMNS FROM '.$this->table;
-                $column_name = 'Field';
+		$property = DB::table('information_schema.COLUMNS')
+			->select('COLUMN_NAME')
+			->where("TABLE_SCHEMA", "=", "?")
+			->and("TABLE_NAME", "=", "?")
+                        ->setBindings([DB::connection()->getConfig('database'), $this->table])
+                        ->get();
                 $reverse = false;
+                $column_name = "COLUMN_NAME";
                 break;
 
             case 'sqlsrv':
@@ -39,7 +48,7 @@ public function getAllColumnsNames()
 
         $columns = array();
 
-        foreach (DB::select($query) as $column)
+        foreach ($property as $column)
         {
             $columns[] = $column->$column_name;
         }
