@@ -6,7 +6,7 @@ use Input;
 use Redirect;
 use Sentry;
 use View;
-use Log;
+//use Log;
 use Asset;
 use adLDAP;
 use app\models\Settings;

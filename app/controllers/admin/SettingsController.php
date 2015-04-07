@@ -66,7 +66,7 @@ class SettingsController extends BaseController
 
         } else {
             $settings = Settings::find(1);
-            if ($settings==null) {
+            if ($settings===null) {
                 $settings = new Settings;
             }
             $settings->id           = '1';
@@ -232,10 +232,10 @@ class SettingsController extends BaseController
                     }
                     // Get Members of Group
                     $groupMembers = $adldap->group()->members($id->name);
-                    if ($groupMembers<>null) {
+                    if ($groupMembers!==null) {
                     foreach ($groupMembers as $members) {
                         $userinfo = $adldap->user()->infoCollection($members, array("mail"));
-                        if ($userinfo->mail<>null) {
+                        if ($userinfo->mail!==null) {
                         //  Log::info($userinfo->mail);
                         // Find User by Email
                         $user = Sentry::findUserByLogin($userinfo->mail);
