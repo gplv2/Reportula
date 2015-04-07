@@ -172,7 +172,7 @@ class DashboardController extends BaseController
         return View::make('dashboard', array(
                                     'username'      => $user->email,
                                     'terminatedJobs'=> $terminatedJobs,
-                                    'nTransFiles'   => preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/", ",", $nTransFiles),
+                                    'nTransFiles'   => preg_replace("/(?<=\d)(?=(\d{3})+(?!\d))/", ',', $nTransFiles),
                                     'cancelJobs'    => $cancelJobs,
                                     'runningJobs'   => $runningJobs,
                                     'waitingJobs'   => $waitingJobs,
@@ -201,19 +201,19 @@ class DashboardController extends BaseController
                     ->where('starttime', '>=', (string) $date);
 
         switch (Input::get('type')) {
-            case "terminated":
+            case 'terminated':
                 $tjobs->where('jobstatus', '=', 'T');
                 break;
-            case "running":
+            case 'running':
                 $tjobs->where('jobstatus', '=', 'R');
                 break;
-            case "waiting":
+            case 'waiting':
                 $tjobs->wherein('jobstatus', array('c', 'F', 'j', 'M', 'm', 'p', 's', 't'));
                 break;
-            case "error":
+            case 'error':
                 $tjobs->wherein('jobstatus', array('e', 'f', 'E'));
                 break;
-            case "cancel":
+            case 'cancel':
                 $tjobs->where('jobstatus', '=', 'A');
                 break;
         }
